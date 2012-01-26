@@ -1,0 +1,27 @@
+There was a period in 2010 or so when everyone was implementing a
+mobile/social/photo-sharing app. This is mine.
+
+It consists of a website, implemented in Python with Django, and an
+Android app, implemented in Scala. It is chiefly of interest because
+of the latter. Scala has some advantages for Java development, and
+many drawbacks. 
+
+The code that I've written is Affero GPL v3'd. There's a bunch of code
+that other people have written; it is licensed according to the
+licenses embedded in the files the code came in. All of those are
+AGPLv3 compatible, as far as I know. If I have made any licensing
+mistakes, please let me know and I will correct them posthaste.
+
+Squarechan is still up as of this writing. It might be taken down at
+any point, so don't rely on that. Also, it's not moderated very much,
+so be careful. If you see anything bad, let me know and I'll take it
+down.
+
+This code is made available in the hopes that it will be useful. 
+
+Cheers. 
+
+Joe
+
+26 January 2012
+Palo Alto, CA
