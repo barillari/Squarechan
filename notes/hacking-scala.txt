@@ -1,0 +1,65 @@
+Hacking Android in Scala
+
+I might offend some people when I say that Java is <a href="http://www.lysator.liu.se/c/bwk-on-pascal.html">not my favorite programming language.</a> I might even offend some people I know and like: for instance, the professor who I learned was responsible for the Java compiler's instistance that every exception be explictly caught or declared to be thrown. My objections aren't as detailed or eriudite as <a href="http://www.jwz.org/doc/java.html">Jamie Zawniski's</a>[1]&mdash;they're really about aesthetic matters. I don't like the lack of function pointers, I don't like the lack of lexical closures, I dislike the lack of a read-eval-print loop[2]. I miss Python's tuples. Most importantly, I just don't like the way the language <i>looks</i>. It's too verbose. I don't like having to write <tt>SomeObject so = new SomeObject();</tt> a zillion times.
+
+I know whining about Java's verbosity is old hat, especially since we have new technology that practically writes your code for you these days and all the cool kids are using Eclipse and listening to someone blather about Emacs about as interesting as listening to a pot-ruined hippie talk about Garcia and why don't you just crawl out of the 60s already. I also know Java is much, much better than a whole bunch of awful languages I <i>could</i> be using. I know the technology has changed since I started messing with Java back in 2001. Eclipse makes programming in Java much easier: it autofills the aforementioned <tt>throws</tt> declarations, auto-adds <tt>import</tt>s, flags type mismatches, and has very, very good autocorrection. It lets you easily "refactor" your code, renaming functions and variables without the usual error-prone <tt>M-x query-replace-regexp</tt> dance. And it even flags errors as you make them, rather than forcing you to <tt>alt-tab</tt> (or <tt>C-x b</tt>) between the compiler output and the editor. But I still don't want to use Java.
+
+For all its assistance to code writers, Eclipse doesn't make it that much easier to <i>read</i> code. Sure, it contains some amazingly useful navigation functions---you can easily step from declaration to implementation to instantiation to invocation and back again---but you're still reading Java. You still have the soup of SpirallinglyLongClassNames, pleonastic type declarations, and unnecessary layers of abstraction (not a language problem per se, but a problem endemic to Java projects).
+
+So, when I started playing with Android, I wanted to see if I could avoid Java. My first very marginal hacks (<a href="https://code.google.com/p/k9mail/issues/detail?id=3#c17">this</a> and a proof-of-concept of <a href="http://jbarillari.blogspot.com/2010/08/forget-me-never.html">this</a>) were built upon <a href="https://code.google.com/p/k9mail/">k9mail</a>, so I stuck with the language k9mail was written in. But when I started writing the Android <a href="market://details?id=com.squarechan.android">app</a> for <a href="http://squarechan.com">Squarechan</a>, I could begin with a clean slate, so I tried Scala.
+
+I had used Scala for a few small programs before, mostly short hacks that drove large Java libraries I needed to run <a href="http://virebo.com">Virebo</a>. One program drove the incredibly useful <a href="http://poi.apache.org/">POI</a> Microsoft Office reader/writer library. It took a custom XML document, parsed it with Scala's wonderful XML processing libs,[3] and used POI to create a very complex Excel spreadsheet. Another drove the <a href="https://www.mozilla.org/rhino/">Rhino</a> JavaScript interpreter to pull information from scripts embedded in web pages. I liked the language because it was novel, because it saved me some typing, because it had a REPL, because it just looked cleaner.
+
+I've just released the <a href="http://squarechan.com/static/android.html">beta</a> of the Scala-based Squarechan app. Here are a few tips for using Scala on Android.
+
+<ol>
+
+<li>Use the Scala Build Tool (sbt) and the Android sbt plugin. <a href="http://zegoggl.es/2009/12/building-android-apps-in-scala-with-sbt.html">This guide</a> shows how to set both up.</li>
+
+<li>Use the most recent version of Scala, 2.8.1. sbt will happily fetch it for you---just edit <tt>project/build.properties</tt> to set build.scala.versions and def.scala.version to 2.8.1.</li>
+
+<li>Note that Scala has some bugs. One that bit me involved <a href="https://lampsvn.epfl.ch/trac/scala/ticket/1459">overridden vararg methods</a> that came up when I used BetterAsyncTask, a wrapper provided by the <a href="https://github.com/kaeppler/droid-fu">droid-fu</a> library around the Android platform class <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a>. I avoided the bug with a gross (but simple) hack: I just edited droid-fu to replace the function defined with varargs:
+
+<pre>
+protected ReturnT doCheckedInBackground(Context context, ParameterT... params) throws Exception 
+</pre>
+
+...with one that didn't use varargs:
+
+<pre>
+protected ReturnT doCheckedInBackgroundSingleton(Context context, ParameterT param) throws Exception 
+</pre>
+
+... and updated the doInBackground function (which called <tt>doCheckedInBackground</tt>) accordingly.
+
+
+<li>If you do use Scala, you'll need to use Proguard. Fortunately, sbt includes it. But if you also want to use droid-fu's image cache and WebImageView (which are pretty cool libraries), you'll need to pass some extra options so Proguard doesn't drop the code they need. Add this to the MainProject class in your <tt>project/build/YourProjectName.scala</tt> build specification file:
+
+<pre>
+override val proguardOption = "-keep class com.google.common.** -keep class com.** {*** startFinalizer(...);} -keep class com.** {*** finalizeReferent(...);}"
+</pre>
+
+If you want to get proguard to optimize and/or obfuscate your code, note that sbt disables those options by default. You can override that by copying the <tt>proguardTask</tt> definition into your <tt>YourProjectName.scala</tt> build spec and modifying it appropriately, as described in  <a href="http://jbarillari.blogspot.com/2011/01/excising-androidutillog-calls-in.html">this post</a>.
+
+</li>
+
+
+<li>Make sure the API level declaration <tt> android:minSdkVersion</tt> in your <tt>src/main/AndroidManifest.xml</tt> file matches the <tt>androidPlatformName</tt> declaration in your <tt>project/build/YourProjectName.scala</tt> file. E.g., if you have <tt>def androidPlatformName = "android-6"</tt> in <tt>project/build/YourProjectName.scala</tt>, your <tt>uses-sdk</line> in your <tt>AndroidManifest.xml</tt> should be <tt>&lt;uses-sdk android:minSdkVersion="6"&gt;&lt;/uses-sdk&gt;</tt>.</li>
+
+
+
+</ol>
+
+
+[1] StackOverflow has a <a href="http://stackoverflow.com/questions/577943/accurracy-of-technical-arguments-in-jwzs-ten-year-old-java-sucks-article-with">long post</a> summarizing how some of his objections have become moot as the language has evolved, but many others are still there, ten years later.
+
+[2] I know you can get a Java REPL with BeanShell, but it's a pain to use. You have to type far too much to get anything interesting to happen.
+
+[3] Scala's XML library is almost reason enough to use the language: you get the <tt>\</tt> and <tt>\\</tt> filtering/traversal operators: set\"book" finds all elements labeled "book" in the node-set set and node\"@genre" returns the value of the attribute "genre". The <tt>\\</tt> operator does the same, except that it traverses all children of the node or node-set ot the left of the backslash. For example:
+
+<pre>
+      (tree \ "sheet-order" \ "sheetname") foreach { (namenode) => { System.out.println(namenode.text) }
+</pre>
+
+
+Update: If you upgrade to the latest version of Google's Android SDK, you'll discover that adb no longer lives in the "tools" directory. Instead it lives in a "platform-tools"

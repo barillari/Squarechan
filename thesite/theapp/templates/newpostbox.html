@@ -1,0 +1,83 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+{% load post_extras %}
+<div class="bbox{%if post%} replybox{%endif%}">
+
+  <form action="/conventional-post" method="post" class="newpostform" id="postform_{{post.id|default:"-1"}}" accept-charset="utf-8" enctype="multipart/form-data">
+    <table style="margin: 0 auto;">
+        <tr>
+          <td colspan="2">
+            <textarea name="content" cols="50" rows="2" id="id_content_{{post.id|default:"-1"}}"></textarea>
+	    {% comment %} {{postform.content|text_field_value}} <- to do this right, need to get the specific form for _this_ post. (there are N+1 postforms on the page, where N=len(posts)) {% endcomment %}
+            </td>
+          </tr>
+        <tr>
+          <td>
+              <!-- fixme: override with swfupload where available. apparently, you can't do this with js alone. -->
+              <div id="upload_input_wrapper_{{post.id|default:"-1"}}" class="hiddenuploadwrapper">
+                <span class="u add_a_picture_link" id="add_a_picture_link_{{post.id|default:"-1"}}">Attach picture</span>
+                <span id="filefieldspan_{{post.id|default:"-1"}}">
+                  <!-- note that this line should match exactly the corresponding line in reset_file_field -->
+                  <input type="file" accept="image/jpeg,image/jpg,image/png,image/gif" id="upload_input_{{post.id|default:"-1"}}" name="picture_file" 
+                         class="hiddenupload upload_input" onchange="reveal_file_field('{{post.id|default:"-1"}}')"/>
+                </span>
+                <img src="static/famfamfam-cancel.png" alt="cancel" title="remove image attachment" class="file_cancel_img"
+		     id="file_cancel_img_{{post.id|default:"-1"}}" />
+              </div>
+              <div id="post_successful_{{post.id|default:"-1"}}" style="display:none;font-weight:bold;background-color:#feff9f;">Post successful!</div>
+          </td>
+          
+          <td style="vertical-align:bottom;text-align:right;">
+            <input type="submit" name="post" value="post">
+          </td>
+        </tr>
+        
+        <tr>
+          <td colspan="2" class="worksafenote">
+            work-safe, please.<br>
+          </td>
+        </tr>
+        
+    </table>
+    <div class="adjust_or_conceal" id="adjust_or_conceal_{{post.id|default:"-1"}}">
+      Posts include your location. You can <span class="u click_to_change_text">adjust your location</span> before posting.
+      {% if not post.id %}
+      <div id="imagerequired">
+	This post starts a new thread. Please attach an image.
+      </div>
+      {% endif %}
+
+    </div>
+    {% csrf_token %}
+    <input type="hidden" name="loc" value="{{loc}}">
+    <input type="hidden" name="owner_token" value="{{remote_owner_token}}">
+    {% if onepostmode or in_thread_view %}
+    <input type="hidden" name="in_thread_view" value="1">
+    {% endif %}
+    <input type="hidden" name="reply_to" value="{{post.id}}">
+    <input type="hidden" class="roundfield" name="round" value="{{rounding_val}}">
+    <input type="hidden" class="radiusfield" name="radius" value="{{radius}}">
+    <input type="hidden" id="antidupetoken_{{post.id|default:"-1"}}" name="antidupetoken" value="">
+  </form>
+{%if post and not in_thread_view%}<div class="cancelbutton"><a style="display:block;" onclick="close_reply_box('{{post.id}}')">[x] <span class="u">close</span></a></div>{%endif%}
+</div>
+    

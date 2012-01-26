@@ -1,0 +1,256 @@
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources>
+    <string name="ok">ok</string>
+    <string name="splash_title"><b>Welcome to Squarechan</b></string>
+
+    <string name="splash_tagline">Squarechan lets you connect anonymously with people near you.</string>
+
+    <string name="splash_explanation">You can read posts and see
+    photos by people near you or post some of your own. You can reveal
+    as much or as little as you like about your location in your
+    posts.</string>
+
+
+
+    <string name="splash_agreement">By continuing, you agree to our <a href="http://squarechan.com/static/terms.html">terms and conditions</a> and <a href="http://squarechan.com/static/privacy.html">privacy policy</a>.</string>
+
+    <string name="splash_cancel_string">Quit</string>
+    <string name="splash_agree_and_continue_string">I agree</string>
+
+    <string name="cancel_post_button_string">Cancel</string>
+    <string name="information">Information</string>
+    <string name="post_button_string">Post</string>
+
+    <string name="single_thread_return_string">⇐ See all threads</string>
+
+    <string name="single_thread_reply_string">Reply</string>
+
+    <string name="seeking_location">Seeking location...</string>
+    <string name="internal_error">Internal Error</string>
+
+    <string name="invalid_postid">Invalid post ID. (This should not happen; please notify support.)</string>
+
+    <string name="location_unavailable">Location unavailable. Please enable location lookup in your device\'s settings and try again.</string>
+    
+    <string name="op_reply_button_string">Reply</string>
+    <string name="op_see_all_replies_string">See all replies</string>
+
+    <string name="update_post_list_text"> new post(s) available. Tap to show.</string>
+
+    <string name="single_thread_view_title">Squarechan :: One thread</string>
+    <string name="viewing_all_threads_title">Squarechan :: All threads</string>
+
+    <string name="determining_location">Determining location . . .</string>
+
+    <string name="error">Error</string>
+    <string name="dialog_ok">OK</string>
+    <string name="no_such_message">Internal error: no such message!</string>
+    <string name="about_action">About</string>
+    <string name="see_all_threads_action">See all threads</string>
+
+    <string name="about_title">About Squarechan</string>
+
+    <string name="about_message">© 2011 Squarechan.
+\n\nIncludes code from Droid-Fu [Copyright © 2009 Matthias Käppler; used the terms of the Apache License].
+\n\nIncludes code and media from Android and Android projects distributed by Google [Copyright © 2010 Google] under the terms of the Apache License, version 2.0. 
+\n\nGeographic calculations based on formulae published <a href="http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm">online</a> by Professor Steven Young of UW-Green Bay.  
+\n\nIncludes code from Apache Commons, copyright © 2000-2008 The Apache Software Foundation, all rights reserved. Used under the terms of the Apache License, version 2.0.</string>
+
+    <string name="delete_error">Error deleting post. Please check your network connection and try again.</string>
+    <string name="settings_action">Settings</string>
+    <string name="force_relocate_action">Update location</string>
+    <string name="force_reload_posts_action">Check for new posts</string>
+    <string name="no_such_menu_item">Not implemented. Sorry.</string>
+    <string name="stop_checking_location_action">Stop checking location</string>
+
+    <string name="loading_thread">Loading thread...</string>
+
+    <string name="viewing_one_thread">Single thread view</string>
+
+    <string name="post_text_hint">What\'s up? (Please be work-safe. ;)</string>
+
+
+    <string name="reply_title">Squarechan :: Reply</string>
+    <string name="new_post_title">Squarechan :: New Post</string>
+
+
+    <string name="reply_header">Reply</string>
+    <string name="new_post_header">New Post</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="really_discard_post">Really discard this post?</string>
+
+
+    <string name="pic_or_text_required_message">To post a reply, please type some text or attach a picture.</string>
+
+    <string name="pic_required_message">All new, non-reply posts must
+    contain an image. Please attach a picture.</string>
+
+
+    <string name="unexpected_post_error">Unexpected post error! Please
+    contact support; this should never happen.</string>
+
+    <string name="detach_image_string">Remove image</string>
+
+    <string name="take_picture_button_string">Take picture with camera</string>
+    <string name="get_from_gallery_string">Pick picture from gallery</string>
+
+    <string name="unexpected_intent_error">Unexpected intent error! Please
+    contact support; this should never happen.</string>
+
+    <string name="select_picture">Select picture</string>
+    <string name="delete_progress">Deleting. . .</string>
+    <string name="posting_progress">Posting. . .</string>
+    <string name="thumbnail_progress">Processing image. . .</string>
+
+    <string name="post_too_long">That post is too long. Please shorten
+    it from %d encoded bytes to no more than %d encoded
+    bytes.</string>
+
+    <string name="post_too_long_without_arg">That post is too long. Please shorten
+    it to no more than %d encoded bytes (usually this is .</string>
+
+    <string name="create_post_title">Squarechan</string>
+
+    <string name="new_post_menu_item">New post</string>
+
+    <string name="post_error">An error occured while posting. Please check your network connection and try again.</string>
+    <string name="loading">Loading</string>
+    <string name="checking_posts_dotdotdot">Checking for posts...</string>
+
+    <string name="turn_on_wifi">Tap to speed up location-finding.</string>
+
+    <string name="error_processing_image">Error processing image. Please try again.</string>
+
+    <string name="threads_fetch_error">Could not retrieve thread list. Please check your network connection and try again.</string>
+    <string name="one_thread_fetch_error">Could not retrieve post(s). Please check your network connection and try again.</string>
+
+    <string name="one_thread">One thread</string>
+
+    <string name="no_location_available">Cannot post. No location
+    available. Please press Menu->Check Location and wait for
+    Squarechan to find your location.</string>
+
+    <string name="checking">Checking</string>
+    <string name="loading_posts">Loading posts...</string>
+    <string name="no_posts_yet">No posts found in your area. Tap to create one! </string>
+
+    <string name="location_undefined_error">Squarechan forgot your
+    current location. This should not happen; if you see this message,
+    please contact support.</string>
+
+    <string name="error_no_media">No external storage
+    available. Please make sure the SD card is installed and
+    mounted. (If you are copying files via USB, please try again after
+    you finish and disconnect the phone from the computer.)</string>
+
+    <string name="need_loc_before_posting">Squarechan has not yet
+    determined your location. It needs to determine your location
+    in order to post.</string>
+
+    <string name="location_unavailable_no_wifi">Could not determine
+    your location. Please make sure location-lookup is enabled.
+    Please enable WiFi if it is not currently enabled. If you are
+    using GPS, try moving to a location with better signal (e.g.,
+    outside) and try posting again. </string>
+
+
+    <string name="location_unavailable_wifi">Could not determine your
+    location. Please make sure location-lookup is enabled. If you are
+    using GPS, try moving to a location with better signal (e.g.,
+    outside) and try posting again. </string>
+
+    <string name="invalid_picture">Could not load that picture. Please try another file.</string>
+
+    <string name="no_newer_posts_in_area">No newer posts in this area...yet.</string>
+    <string name="no_older_posts_in_area">No older posts in this area.</string>
+
+    <string name="location_settings_top_text">For the fastest location
+    detection, please adjust your settings as follows:</string>
+
+
+    <string name="location_settings_gps_text">• Enable GPS in location settings</string>
+    <string name="location_settings_networks_text">• Enable WiFi and Networks in location settings</string>
+    <string name="location_settings_wifi_text">• Turn on WiFi (note that it make take some time for WiFi to activate)</string>
+
+    <string name="location_settings_edit_settings_button_text">Edit Settings</string>
+    <string name="location_settings_cancel_button_text">Not now</string>
+
+
+    <string name="never_show_wifi_again">Never ask about WiFi again</string>
+
+    <string name="location_settings_alert">Location settings alert</string>
+
+    <string name="location_unavailable_text">Location unavailable</string>
+    <string name="location_unavailable_explanation_text">Your Android device is not configured to provide location information, which Squarechan requires to operate. Tap this message to edit your location settings.</string>
+
+
+
+    <string name="description_logo">logo for squarechan</string>
+    <string name="description_radius">adjust search range</string>
+    <string name="description_refresh">check for new posts</string>
+    <string name="description_post">create a new post</string>
+    <string name="description_home">go home (see all threads)</string>
+
+    <string name="hidden_suffix">... [Truncated. Tap to see full post.]</string>
+
+    <string name="post_deleted_by_poster">[Post deleted by author.]</string>
+    <string name="delete_button_string">Delete post</string>
+    <string name="really_delete_post">Really delete this post? This action cannot be undone.</string>
+    <string name="do_delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="set_range">Set range</string>
+    <string name="adjust_range">Adjust range</string>
+
+
+
+    <string name="radius_title_text">Show posts within nearest:</string>
+    <string name="rounding_title_text">Round location to nearest:</string>
+    <string name="whats_this">[<u>what\'s this?</u>]</string>
+
+    <string name="range_whats_this_explanation_text">
+      <b>Show posts within nearest:</b> This option is the maximum
+      distance from your location in which Squarechan will search for
+      posts.  \n
+      <b>Round location to nearest:</b> Squarechan masks your exact
+	location by snapping it to the nearest point on a grid. Pick a
+	narrower grid spacing to be more precise about your location,
+	a wider one to be less precise.</string>
+
+    <string name="crash_toast_text">Squarechan just had an error. Our
+    apologies. Rest assured that it has been duly logged and the
+    development team will fix it as soon as possible.</string>
+
+    <string name="crash_now">Crash now</string>
+
+    <string name="see_posts_within_nearest">See posts within nearest:</string>
+    <string name="error_fetching_image">Could not retrieve that image. Please choose another from the Gallery.</string>
+</resources>
+
+
+
+
+
+
+
+
+
+

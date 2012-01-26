@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:droidfu="http://schemas.droidfu.github.com/apk/res/com.github.droidfu.widgets"
+    android:padding="3dip"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+
+
+  <LinearLayout android:id="@+id/single_thread_return_top"
+		style="@style/SingleThreadReturn"
+		android:orientation="horizontal"
+		android:visibility="gone"
+		android:onClick="onHomeClick"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+    <TextView 
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="14dip"
+       android:text="@string/single_thread_return_string"
+       android:padding="8dip"
+       />
+  </LinearLayout>
+
+  <LinearLayout android:orientation="horizontal"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+
+    <com.github.droidfu.widgets.WebImageView 
+       android:id="@+id/op_thumbnail"
+       android:layout_width="@dimen/thumbnail_width"
+       android:layout_height="@dimen/thumbnail_height"
+       style="@style/SQWebImageViewStyle"
+       droidfu:autoLoad="false"
+       android:onClick="clickShowLargerImage"
+       />
+
+
+  <ImageView
+     android:id="@+id/deleted_icon"
+     android:visibility="gone"
+     android:layout_width="@dimen/thumbnail_width"
+     android:layout_height="@dimen/thumbnail_height"
+     android:src="@drawable/ic_menu_block"
+     style="@style/SQWebImageViewStyle"
+     />
+
+
+    <LinearLayout 
+       android:orientation="vertical"
+       android:layout_height="wrap_content"
+       android:layout_width="fill_parent">
+      <TextView 
+	 style="@style/SQStatsBarStyle"
+	 android:id="@+id/op_stats"
+	 android:text="@string/error"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+
+	 />
+      
+      <TextView 
+	 android:id="@+id/op_content"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:padding="8dip"
+	 style="@style/PostText"
+	 />
+      <include layout="@layout/content_deleted"/>
+      <include layout="@layout/delete_button"/>
+    </LinearLayout>
+  </LinearLayout>
+
+
+  <LinearLayout 
+     android:paddingLeft="20dip"
+     android:orientation="vertical"
+     android:layout_height="wrap_content"
+     android:layout_width="fill_parent">
+
+
+
+    <LinearLayout 
+       android:id="@+id/op_replies"
+       android:orientation="vertical"
+       android:visibility="gone"
+       android:layout_height="wrap_content"
+       android:layout_width="fill_parent">
+    </LinearLayout>
+
+    <TextView 
+       android:id="@+id/op_replies_hidden"
+       android:layout_width="fill_parent"
+       android:visibility="gone"
+       android:layout_height="wrap_content"
+       android:textSize="14dip"
+       android:padding="8dip"
+       android:gravity="right"
+       android:textStyle="bold"
+       android:background="#eeeeeeee"
+       />
+
+    <RelativeLayout 
+       android:layout_width="fill_parent" 
+       android:visibility="gone"
+       android:layout_height="wrap_content" >
+      <Button
+	 android:id="@+id/op_reply"
+	 android:text="@string/op_reply_button_string"
+	 android:layout_height="wrap_content"
+	 android:layout_width="wrap_content"
+	 android:onClick="clickThreadReplyButton"
+         android:layout_alignParentRight="true"
+         android:layout_marginLeft="10dip"
+	 />
+      <Button
+	 android:id="@+id/op_see_all_replies"
+	 android:text="@string/op_see_all_replies_string"
+	 android:visibility="gone"
+	 android:layout_height="wrap_content"
+	 android:layout_width="wrap_content"
+	 android:onClick="clickThreadSeeAllButton"
+         android:layout_toLeftOf="@id/op_reply"
+         android:layout_alignTop="@id/op_reply"
+	 />
+      
+    </RelativeLayout>
+
+
+  </LinearLayout>
+
+  <include layout="@layout/op_reply_button_bar" android:id="@+id/op_reply_bottom_rl" />
+
+
+
+  <LinearLayout android:id="@+id/single_thread_return_bottom"
+		style="@style/SingleThreadReturn"
+		android:orientation="horizontal"
+		android:visibility="gone"
+		android:onClick="onHomeClick"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+    <TextView 
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:textSize="14dip"
+       android:text="@string/single_thread_return_string"
+       android:padding="8dip"
+       />
+  </LinearLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,7 @@
+# A robot may not injure a human being or, through inaction, allow a human being to come to harm. 
+# A robot must obey the orders given to it by human beings except where such orders would conflict with the First Law. 
+# A robot must protect its own existence aslong as such protection does not conflict with the First or Second Laws. 
+# ---I. Asimov "I, Robot", p. 40.
+#    from http://www.cs.utexas.edu/users/chaput/research/Rodney/html/rules.html
+
+

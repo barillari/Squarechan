@@ -1,0 +1,80 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+
+
+{% extends 'mobile/base.html' %}
+{% block maindiv %}
+
+{% include 'mobile/nojs.html' %}
+
+<span style="font-weight:bold;">Searched for: "<span id="searchedfor" style="font-weight:normal;"></span>".</span>
+
+<div id="loadmorespinner">
+<table>
+<tr><td><img src="/static/loading.gif" alt="searching"></td><td>Searching...</td></tr></table>
+</div>
+
+
+<div style="display:none;" id="noresults" class="failmsg">
+No results found. Please search for a different address.
+</div>
+
+<div style="display:none;" id="noaddress" class="failmsg">
+Please supply an address.
+</div>
+<div id="mobile-matches">
+
+
+
+
+
+
+</div>
+<div id="searchform" style="margin-top:10px;">
+<form id="searchform" method="GET" action="/m/select-address">
+<div>Search again:</div>
+<input id="address" name="address" type="text" style="width:100%;"/>
+<input type="hidden" name="next" id="next" value=""/>
+
+<div style="text-align:center;">
+<input type="submit" value="Lookup address"/>
+</div>
+</form>
+</div>
+<script type="text/javascript">
+var ADDRESS = null;
+var NEXT = null;
+$(document).ready(function() {
+       $("#address").val(""); // clear it if the browser is hanging on to an old value
+       NEXT = get_qs_hash_value("next");
+       setup_commment_form();
+       $("#next").val(NEXT);
+       $("#searchform").submit(function () {mobile_select_address_update(true);});
+       mobile_select_address_update();
+       setInterval(mobile_select_address_update, 500);
+
+});
+</script>
+
+
+{% endblock %}

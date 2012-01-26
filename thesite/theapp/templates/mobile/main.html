@@ -1,0 +1,113 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% extends 'mobile/base.html' %}
+{% block maindiv %}
+
+
+<div id="currentlocdiv" {% if not loc %} style="display:none;"{%endif%}>
+  you're posting from <span id="currentloc">{{loc_fixed}}</span> [<span id="changeloc"><a href="/m/?force_change=1">change</a></span>]
+  {% if not onepostmode %}
+  showing posts within <span id="current_radius_nice">{{nice_radius}}</span>. [<a href="/m/prefs">change</a>]
+  {% endif %}
+</div>
+
+<h3>{{sitename}}</h3>
+
+<div id="mobilemapbox">
+
+{%comment%} post form is at the *bottom* for replies and at the *top* (and initially hidden) in thread view {%endcomment%}
+{% if onepostmode %}
+<h3>viewing one thread</h3>
+<div id="mobilemapbox">
+  <div class="mobilebuttondiv">
+    <span id="mobile-newpost-bottom" class="u mobilebuttonlink mobile-newpost-button"><a href="/m">&lt;&lt;&lt; all threads</a></span>
+  </div>
+
+{%else%}
+  <div class="mobilebuttondiv">
+    <span id="mobile-newpost-top" class="u mobilebuttonlink mobile-newpost-button">New Post</span>
+  </div>
+
+  <div id="mobile-newpost">
+    {% include 'mobile/mobile_postform.html' %}
+  </div>
+{% endif %}
+
+<div id="posts">
+  {% include 'posts_div_contents.html' %}
+</div>
+
+<script type="text/javascript">
+SITENAME="{{sitename}}";
+IS_MOBILE=true;
+TRUNCATE_REPLIES_TO = {{SHOW_REPLY_COUNT}};
+IN_SINGLE_THREAD_VIEW={% if onepostmode %}true{%else%}false{%endif%};
+// -1 by default (thread view); it's a specific thread # if we're in onepostmode
+{%if onepostmode %}
+MOBILE_POST_FORM_PID={{posts.0.id}};
+{%else%}
+MOBILE_POST_FORM_PID=-1;
+{%endif%}
+$(document).ready(function() {
+   $(".mobile-newpost-button").click(mobile_go_to_newpost);
+   setup_commment_form();
+   $("#MOAR").click(mobile_load_more);
+   if ($("#mobile-postform-errors").text()=='' && $("#id_content_"+MOBILE_POST_FORM_PID).val()=='') {
+      $("#mobile-newpost").hide();
+      $("#mobile-newpost-top").show();
+   }
+
+run_after_loading_posts();
+});
+</script>
+
+
+
+{% if onepostmode %}
+
+
+<div id="mobilemapbox">
+  <div class="mobilebuttondiv">
+    <span id="mobile-newpost-bottom" class="u mobilebuttonlink mobile-newpost-button"><a href="/m">&lt;&lt;&lt; all threads</a></span>
+  </div>
+
+{% else %}
+
+<div id="mobilemapbox">
+<div class="mobilebuttondiv">
+<span id="mobile-newpost-bottom" class="u mobilebuttonlink mobile-newpost-button">New Post</span>
+</div>
+
+<div class="mobilebuttondiv">
+<span id="MOAR" class="u mobilebuttonlink">More &gt;&gt;&gt;</span>
+</div>
+<div id="no_more_posts">
+No more posts in this area.
+</div>
+{%endif%}
+
+<script type="text/javascript">
+var MAX_POST_LEN={{MAX_POST_LEN}};
+</script>
+
+{% endblock %}

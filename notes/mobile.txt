@@ -1,0 +1,82 @@
+
+Mobile site plan:
+
+first page:
+
+Welcome to {{sitename}}! 
+
+{{sitename}} lets you find and talk with people around you.
+
+To get started, please tell us where you are. (We won't disclose this
+without your permission---see our privacy policy. If you're concerned,
+you can always say you're someplace else. :))
+
+
+[Try to determine location automatically]
+     -> on click, show Looking up location...
+     -> on success, go to map page
+     -> on fail, show Failed. Please enter location manually...
+
+OR, enter address manually: 
+[                                ] [Go]
+-> if just one hit, go to map page
+-> if multiple hits, go to select address page
+
+select address page:
+Searched for "%s":
+[oldquery	   	 ] [search again] -> return to this page
+
+list of addresses. click one to go to map page.
+
+[oldquery	   	 ] [search again] -> return to this page
+
+
+map page:
+
+FIXED-SIZE PAGE--FILL VIEWPORT. catch .resize() to redraw on resize.
+
+Click the map to change your location.
+[ accept location and continue >> ] -> go to mainpage
+
+[MAP]
+
+
+[ search again ] <- back to search results, #hashtag to new search
+
+
+
+main page:
+
+location x, y [change]
+
+[NEW POST] -> js reveal [1.1: fallback to GET post page]
+
+POST 1
+[pic] wrap text around pic
+[xxx meters away, yyy min ago]
+      [nnn repies omitted. see full thread.]
+      reply 1 [same fmt]
+      reply 2
+      [FULL THREAD] [x omitted]
+      [REPLY] -> goes to full thread #reply
+
+[MORE >>] 
+
+
+full thread view:
+
+single thread
+[ << BACK TO ALL THREADS ]
+
+[full post + all replies]
+
+#REPLY: 
+[box open]
+text
+pic post
+post
+[Note that posting reveals your location. click to change it.]
+
+
+
+[ << BACK TO ALL THREADS ]

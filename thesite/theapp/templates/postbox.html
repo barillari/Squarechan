@@ -1,0 +1,69 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+{% load post_extras %}
+{% if not hideouterdiv %}<div class="bbox postbox postboxid_{{post.id}}" id="postbox_{{post.id}}">{% endif %}
+
+  {% include 'postcontent.html' %}
+
+
+  {% if post|has_children:threadmap %}
+  <div class="postchildrenbox">
+    {%if post|hidden_count:threadmap %}<div class="hiddenreplies">{{post|hidden_count:threadmap}} repl{{ post|hidden_count:threadmap|pluralize:"y,ies" }} hidden. <a href="/{%if is_mobile%}m/{%endif%}thread/{{post.id}}">view full thread</a></a></div>{% endif %}
+    {% for post in post|get_children:threadmap %}
+        <div class="bbox postchildbox" id="postchildbox_{{post.id}}">
+	    {% include 'postcontent.html' %}
+	    <div class="clearer">&nbsp;</div>
+	</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+{%comment%}opm={{onepostmode}} im={{is_mobile}}{%endcomment%}
+  <div id="postfooter_{{post.id}}" class="postfooter"> 
+    {% if in_thread_view %}
+	        {% if is_mobile %}
+		      	{% include 'mobile/mobile_postform.html' %}
+	        {%else%}
+                      {% include 'non_mobile_reply_box.html' %}
+	        {%endif%} 
+
+    {% else %}
+    	 {% if is_mobile %}
+                 <a href="/m/thread/{{post.id}}#postform_{{post.id}}">Reply</a>   
+    	 {%else%}
+               	 <span id="replylink_{{post.id}}" class="u reply">Reply</span> 
+    	 {%endif%}
+         | <a href="/{%if is_mobile%}m/{%endif%}thread/{{post.id}}">View full thread</a>   
+         {% if post|has_children:threadmap %}
+		({{post|child_count:threadmap}} 
+		 repl{{ post|child_count:threadmap|pluralize:"y,ies" }}{%if post|hidden_count:threadmap %}; 
+		 {{post|hidden_count:threadmap}} hidden{% endif %})
+         {% endif %} 
+         {% if not is_mobile %}
+		 {% include 'non_mobile_reply_box.html' %}
+         {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="clearer">&nbsp;</div>
+  
+{% if not hideouterdiv %}</div>{% endif %}

@@ -1,0 +1,115 @@
+/*
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+import sbt._
+import java.io.File
+import proguard.{Configuration=>ProGuardConfiguration, ProGuard, ConfigurationParser}
+
+trait Defaults {
+  def androidPlatformName = "android-6"
+}
+class Squarechan(info: ProjectInfo) extends ParentProject(info) {
+  val proguard = "proguard" % "proguard" % "4.6" from "file:///home/jdb/dl/proguard4.6beta2/lib/proguard.jar"
+
+
+  override def shouldCheckOutputDirectories = false
+  override def updateAction = task { None }
+
+  lazy val main  = project(".", "squarechan", new MainProject(_))
+  lazy val tests = project("tests",  "tests", new TestProject(_), main)
+
+  class MainProject(info: ProjectInfo) extends AndroidProject(info) with Defaults with MarketPublish with TypedResources  {
+    val keyalias  = "release"
+    
+//    override val proguardOption = "-printseeds okseeds.txt -keep class com.google.common.** -keep class ** {*** startFinalizer(...);} -keep class ** {*** finalizeReferent(...);}"
+//    override val proguardOption = "-printseeds new-failed-seeds.txt -keep class com.google.common.base.FinalizableReferenceQueue -keep class com.google.common.base.internal.Finalizer -keep class com.google.common.base.FinalizableReference -keep  class com.google.common.collect.MapMaker* "
+//    override val proguardOption = " -printseeds 2-new-failed-seeds.txt -keep class com.google.common.** "
+
+//  -whyareyoukeeping class android.util.Log {*;}
+// -forceprocessing
+    override val proguardOption = " -renamesourcefileattribute SourceFile -keepattributes SourceFile,LineNumberTable -dontpreverify -printmapping "+System.currentTimeMillis+".proguard.map -keep class com.github.droidfu.widgets.WebImageView {*;} -printseeds proguard.seeds.txt -keep class com.google.common.** -keep class com.** {*** startFinalizer(...);} -keep class com.** {*** finalizeReferent(...);} -repackageclasses '' -allowaccessmodification  -printconfiguration PROGUARD_OPTIONS"
+
+
+  override def proguardTask = task { 
+    val args = "-injars" ::  mainCompilePath.absolutePath+File.pathSeparator+
+                             scalaLibraryJar.getAbsolutePath+"(!META-INF/MANIFEST.MF,!library.properties)"+
+                             (if (!proguardInJars.getPaths.isEmpty) File.pathSeparator+proguardInJars.getPaths.map(_+"(!META-INF/MANIFEST.MF)").mkString(File.pathSeparator) else "") ::                             
+               "-outjars" :: classesMinJarPath.absolutePath ::
+               "-libraryjars" :: libraryJarPath.getPaths.mkString(File.pathSeparator) ::                
+               "-dontwarn" ::
+               "-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*" ::
+               "-forceprocessing" ::
+               "-optimizationpasses 20" ::
+               "-keep enum org.acra.** { }" ::
+               "-dontusemixedcaseclassnames" ::
+	       "-keepclassmembers enum * {    public static **[] values();    public static ** valueOf(java.lang.String);}" ::
+               "-dontskipnonpubliclibraryclasses" ::
+               "-keep class org.acra.ACRA { *;}" ::
+               "-keep class org.acra.ReportingInteractionMode {   *;} " ::
+               "-keep public class org.acra.ErrorReporter {public void addCustomData(java.lang.String,java.lang.String);}" ::
+               "-keep public class org.acra.ErrorReporter {public org.acra.ErrorReporter$ReportsSenderWorker handleSilentException(java.lang.Throwable);}"::
+               "-keep public class * extends android.app.Activity" ::
+               "-keep public class * extends android.app.Service" ::
+               "-keep public class * extends android.appwidget.AppWidgetProvider" ::
+               "-keep public class * extends android.content.BroadcastReceiver" ::
+               "-keep public class * extends android.content.ContentProvider" ::
+	       "-keepclasseswithmembernames class * {    native <methods>;} " ::
+	       "-keepclasseswithmembernames class * {    public <init>(android.content.Context, android.util.AttributeSet);}"::
+	       "-keepclasseswithmembernames class * {    public <init>(android.content.Context, android.util.AttributeSet, int);}"::
+               "-keep public class * extends android.view.View" ::
+               "-keepattributes *Annotation*" ::
+               "-keep public class * extends android.view.View {    public <init>(android.content.Context);    public <init>(android.content.Context, android.util.AttributeSet);    public <init>(android.content.Context, android.util.AttributeSet, int);    public void set*(...);}" ::
+//               "-keep class org.apache.commons.codec.binary.Base64 { *** encodeBase64URLSafeString(...);}" ::
+               "-keepclasseswithmembers class * {    public <init>(android.content.Context, android.util.AttributeSet);}" ::
+               "-keepclasseswithmembers class * {    public <init>(android.content.Context, android.util.AttributeSet, int);}" ::
+               "-keepclasseswithmembers class com.squarechan.android.** {  *** **(android.view.View);}" :: // these are usually callbacks
+               "-keepclasseswithmembers class com.squarechan.android.** {  *** *click*(...);}" :: // these are always callbacks
+               "-keepclasseswithmembers class com.squarechan.android.** {  *** *Click*(...);}" :: // these are always callbacks
+               "-keepclassmembers class * implements android.os.Parcelable {    static android.os.Parcelable$Creator CREATOR; }" ::
+               "-keepclassmembers class **.R$* {    public static <fields>;}" :: 
+               "-keep public class * extends android.app.Application" ::
+               "-keepclasseswithmembers class ** { *** startCheckingPostsInner(...); *** startCheckingPosts(...); }" ::
+               "-keep public class * implements junit.framework.Test { public void test*(); }" :: proguardOption :: Nil
+//    System.out.println(args)
+               
+    val config = new ProGuardConfiguration
+    new ConfigurationParser(args.toArray[String], info.projectPath.asFile).parse(config)    
+    new ProGuard(config).execute
+    None
+  }
+
+
+// most of these are in AndroidProject.scala anyway
+
+// FIXME: AndroidProject.scala also turns off optimization WHICH IS WHY WE COULDN'T BURN THE Log.? STATEMENTS. FIE.
+
+// -printmapping out.map -renamesourcefileattribute SourceFile -keepattributes SourceFile,LineNumberTable -dontpreverify -repackageclasses '' -allowaccessmodification -optimizations !code/simplification/arithmetic -keepattributes *Annotation* -keep public class * extends android.app.Activity -keep public class * extends android.app.Application -keep public class * extends android.app.Service -keep public class * extends android.content.BroadcastReceiver -keep public class * extends android.content.ContentProvider -keep public class * extends android.view.View {   public <init>(android.content.Context);     public <init>(android.content.Context, android.util.AttributeSet);     public <init>(android.content.Context, android.util.AttributeSet, int);     public void set*(...); } -keepclasseswithmembers class * {  public <init>(android.content.Context, android.util.AttributeSet); } -keepclasseswithmembers class * { public <init>(android.content.Context, android.util.AttributeSet, int); } -keepclassmembers class * implements android.os.Parcelable { static android.os.Parcelable$Creator CREATOR;} -keepclassmembers class **.R$* {public static <fields>;} -keepclassmembers class **.TR$* {    public static <fields>;}
+
+
+    override def keystorePath = mainSourcePath / "squarechan-release-key.keystore"
+
+    val scalatest = "org.scalatest" % "scalatest" % "1.0" % "test"
+  }
+
+  class TestProject(info: ProjectInfo) extends AndroidTestProject(info) with Defaults
+}
+
+
+//	       "-keep class org.acra.** " ::
+//	       "-keepclassmembers enum org.acra.** {    public static **[] values();    public static ** valueOf(java.lang.String);}" ::
+//               "-keepnames enum org.acra.** " ::
+    // see https://code.google.com/p/acra/source/browse/wiki/ACRAProGuardHowTo.wiki?r=223

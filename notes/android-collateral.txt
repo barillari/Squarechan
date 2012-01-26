@@ -1,0 +1,6 @@
+Squarechan lets you chat anonymously with people around you. (Think of it as Foursquare meets 4chan.) You can post pictures and text, reply to others' posts, or just browse what's happening in your neighborhood.
+
+1.1 - Initial release. Requires network permissions (to read and post), location permissions (to see where you are to show you the right posts and to tag your posts), and SD card permissions (for its photo cache).
+
+Chat anonymously with people nearby. It's Foursquare plus 4chan.
+

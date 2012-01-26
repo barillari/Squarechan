@@ -1,0 +1,104 @@
+
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% load post_extras %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>mod dashboard</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+    {% include 'loadscripts.html' %}
+  </head>
+
+<body>
+<style type="text/css">
+.c {border:2px dashed #ff0000; background-color: #444;}
+</style>
+
+<table width="100%">
+<thead>
+<th>id</th><th>created (src)</th><th>thumb</th><th>content</th><th>loc</th><th>ip</th><th>replyto</th>
+</thead>
+{% for p in plist.object_list %}
+<tr id="row_{{p.id}}" {% if p.censored %}class="c"{%endif%}>
+<td><a href="/thread/{{p.id}}">{{p.id}}</a></td><td>{{p.created}} ({{p.source}})</td>
+<td>{% if p.picture %}<a href="{{p|slide_url}}"><img alt="post picture" class="postthumb" alt="thumb" src="{{p|thumb_url}}"></a>{%endif%}</td>
+<td>{{p.content|truncatewords:50|shyphenate|linebreaksbr}}</td>
+<td><a href="http://maps.google.com/maps?q={{p.latitude}},{{p.longitude}}">{{p.latitude}},{{p.longitude}}</a></td>
+<td><a href="http://whois.domaintools.com/{{p.ipaddr}}">{{p.ipaddr}}</a></td>
+
+<td>{%if p.reply_to%}<a href="/thread/{{p.reply_to.id}}">{{p.reply_to.id}}</a>{%endif%}</td>
+
+<td>  
+{% if not p.censored %}
+  <span id="censor_{{p.id}}" class="u censor">censor</span>
+{%endif%}
+</td>
+
+</tr>
+{% endfor %}
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if plist.has_previous %}
+            <a href="?page={{ plist.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ plist.number }} of {{ plist.paginator.num_pages }}.
+        </span>
+
+        {% if plist.has_next %}
+            <a href="?page={{ plist.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+<script type="text/javascript">
+function handle_censor(data, textStatus, xhr) {
+     if (textStatus != "success") {
+        alert("failed: " + textStatus);
+        return;
+     }
+     if (data[0] != "ok") {
+         alert("failed: " + data);
+         return;
+     }
+     var pid = data[1];
+     $("#row_"+pid).addClass("c");
+     $("#censor_"+pid).remove();
+}
+
+function censor(evt) {
+    var pid = $(evt.target).attr("id").replace("censor_","");
+    $.post("/mod/censor", {'pid': pid}, handle_censor, "json");    
+}
+
+
+$(document).ready(
+		  function() {
+                   $(".censor").click(censor);
+})
+</script>

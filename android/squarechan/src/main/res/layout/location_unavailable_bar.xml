@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<LinearLayout 
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"    
+   android:visibility="gone"
+   android:id="@+id/location_unavailable_bar"
+   android:onClick="clickedSeekingLocationBar"
+   android:layout_height="wrap_content"
+   android:layout_width="fill_parent">
+
+    <TextView 
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:background="#ff6262"
+       android:textSize="24dip"
+       android:textStyle="bold"
+       android:text="@string/location_unavailable_text"
+       android:padding="8dip"
+       />
+    <TextView 
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:background="#ff6262"
+       android:textSize="16dip"
+       android:text="@string/location_unavailable_explanation_text"
+       android:padding="8dip"
+       />
+</LinearLayout>

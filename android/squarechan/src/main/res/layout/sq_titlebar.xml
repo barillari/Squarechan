@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- title bar derived from google's iosched -->
+    <LinearLayout 
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       style="@style/TitleBar">
+      <!--        <ImageView style="@style/TitleBarLogo"
+			     android:contentDescription="@string/description_logo"
+			     android:src="@drawable/title_logo" />-->
+
+      
+      <ImageButton style="@style/TitleBarAction"
+		   android:visibility="gone"
+		   android:id="@+id/btn_title_home"
+		   android:contentDescription="@string/description_home"
+		   android:src="@drawable/ic_title_home"
+		   android:onClick="onHomeClick" />
+      
+      <ImageView style="@style/TitleBarSeparator" 
+		 android:visibility="gone"
+		 android:id="@+id/btn_title_home_separator" />
+
+
+      <Button
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	 style="@style/MyWindowTitle"
+	 android:id="@+id/window_title_button"
+	 android:text="@string/app_name"
+         android:onClick="onAboutClick"
+	 />
+
+      <TextView
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	 android:visibility="gone"
+	 style="@style/MyWindowTitle"
+	 android:id="@+id/window_title_text"
+	 android:text="@string/app_name"
+	 />
+
+      
+      <View style="@style/TitleBarSpring" />
+
+
+      <ImageView style="@style/TitleBarSeparator"
+		 android:visibility="gone"
+		 android:id="@+id/btn_title_radius_separator"
+		 />
+
+      <Button style="@style/TitleBarAction"
+		   android:id="@+id/btn_title_radius"
+		   android:contentDescription="@string/description_radius"
+		   android:text="@string/error"
+                   android:paddingTop="10sp"
+                   android:drawablePadding="-10sp"
+	           android:textSize="10sp"
+    	           android:visibility="gone"
+	           android:textColor="#FFFFFF"
+                   android:drawableTop="@drawable/ic_title_radius"
+		   android:onClick="clickChangeRadius" />
+
+
+      <ImageView style="@style/TitleBarSeparator"
+		   android:id="@+id/btn_title_refresh_separator"
+		 />
+      <ImageButton style="@style/TitleBarAction"
+		   android:id="@+id/btn_title_refresh"
+		   android:contentDescription="@string/description_refresh"
+		   android:src="@drawable/ic_title_refresh"
+		   android:onClick="clickForceCheckPosts" />
+      
+      <ProgressBar style="@style/TitleBarProgressIndicator"
+		   android:id="@+id/title_refresh_progress"
+		   android:visibility="gone" />
+
+      <TextView 
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	 android:id="@+id/title_activity_indicator"
+	 style="@style/MyWindowTitleCheckingText"
+	 android:text="@string/error"
+	 android:visibility="gone"
+
+	 />
+
+      <ImageView style="@style/TitleBarSeparator" 
+		 android:id="@+id/btn_title_post"
+		 />
+      <ImageButton style="@style/TitleBarAction"
+		   android:id="@+id/btn_title_post_separator"
+		   android:contentDescription="@string/description_post"
+		   android:src="@drawable/ic_title_post"
+		   android:onClick="clickCreateNewPost" />
+    </LinearLayout> <!-- end titlebar -->

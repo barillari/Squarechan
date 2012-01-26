@@ -1,0 +1,65 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% load post_extras %}
+  {% if post.picture and not post.deleted %}
+  <div class="postthumbdiv" style="width: {{THUMB_WIDTH}}px; height: {{THUMB_HEIGHT}}px;">
+    <a class="lightbox postthumblink" href="{{post|slide_url}}"{% if is_mobile %} target="sqpic"{%endif%}>
+      <img alt="post picture" class="postthumb" src="{{post|thumb_url}}">
+    </a>
+  </div>
+  {% endif %}
+  
+  <div class="postinfo">
+    {%if not post.deleted %}
+    <div class="reldistance">{{post|reldistance_rounded:loc}}</div>
+    {% endif %}
+    <div class="reldate">
+    {{post|reldate}}
+    </div>
+    {% if in_thread_view and not post.deleted and post|is_deletable:remote_owner_token %}
+       <div class="u deletespan" id="deletespan_{{post.id}}">delete post</div>
+    {% endif %}
+
+
+  </div>
+  <span class="content_trunc">
+{% if post.deleted %}
+    <span class="deletemsg">[Post deleted by author.]</span>
+{% else %}	       
+    {% if post|needs_truncation %}
+           {{post.content|truncatewords:50|linebreaksbr}}
+           <br>
+           [<u class="seemore">See more ({{post.content|wordcount}} words)...</u>]
+           </span>
+          <span class="content_full">
+               {{post.content|linebreaksbr}}<br>
+               [<u class="seeless">See less</u>]
+    {% else %}
+       {% if post.content %}
+          {{post.content|linebreaksbr}}
+       {% endif %}
+    {% endif %}
+{% endif %}
+
+  </span>
+

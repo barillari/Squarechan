@@ -1,0 +1,163 @@
+S: Splash page (displayed on 1st run only)
+
+Welcome to Squarechan! 
+
+Squarechan lets you connect with people near you.
+
+You can read posts and see photos by people near you or post some of
+your own. You can reveal as much or as little as you like about your
+location in your posts. 
+
+By continuing, you agree to our [terms and conditions] LINK and [privacy
+policy]. LINK
+
+{Get started} set the "have seen this" preference; FORWARD to M. 
+
+   
+
+M: Main page
+
+
+if not "first time" set -> FORWARD to S
+
+if not launched: start a timer; check location every 30m _as long as the activity is running_ (v 1.1: user-adjustible) (set a flag in onResume/onPause)
+
+start a ScheduledExecutorService to run every 10 minutes. this service will:
+      - if the loc is too old, find a new loc, and trigger the post update
+      - if the loc is *not* too old, but the posts are, trigger a post update.
+
+
+more precisely:
+     - when we first start, show the location spinner. 
+     - use the last-known-location method to start populating the display
+       - if it's available, set the current location to that, trigger the posts update, and keep running the location update in the bkgnd
+       - if it's unavailable, just keep spinning and looking for location
+     - during an update, as new locations keep coming in, stop 30s after we get something with error <= than grid radius
+       - at that point, if we have no location, save it and trigger
+         post lookup. otherwise, save it and notify the user that they've moved if they've moved > grid radius.
+       
+
+
+start a timer, check for new posts continuously via long-polling (while the activity is open). onResume: start this poll. onPause: stop it.
+
+possibly launchMode=singleTask
+
+if there's data/location available, just show it.
+
+v 1.0: we don't store it across destruction, so if it's destroyed, we refetch.)
+v 1.1: shove the latest data into a cache. keep at most a few hundred thumbs & posts. only current loc.
+
+When there's no location known:
+     main view: contains nothing (preparing...)
+
+     show (spinner) looking for location...
+
+If we can't find location with accuracy <= blur radius within 30s, say
+we can't get a fix, show retry button.
+
+[Turn on wifi.] -> make sure to remove this after on
+
+     (spinner) loading posts...
+
+     if load fails: error message and retry button (no service?)
+
+
+On "location found":
+   - if nothing displayed: looking-for-loc spinner, commence loading posts
+   - if something displayed: show "location changed. get new posts?"
+
+On "posts loaded":
+   - if nothing displayed: show posts
+   - if _something_ displayed: say "new posts; click to display" 
+     	-> display them.
+
+	   right now, we refetch everything and cap by # of posts, so
+	   if you're in Chelsea and walk to SoHo, you'll still see
+	   those SoHo posts (but with updated location info) until
+	   they decay. For now, we'll rely on the server to calculate
+	   reldist. (might not be safe to push onto unit). and
+	   reltime. v1.1: push some of this to the client, since it
+	   has a better idea of its location. specifically, update the
+	   relative times every minute and onResume() and the relative
+	   locations whenever we change location, even if the user
+	   doesn't accept it..
+
+
+squarechan 	   [reload] [relocate] [new] <- FIXED
+[optional: getting location...]
+	   [wifi is off: turn on for better location peformance] <- show when wifi off and above label shown, check if wifi on during onResume; hide if it is.
+[optional: getting new posts...]
+
+main screen: centered [spinner] loading...
+OR:
+
+listview of posts - scrolling
+
+A post:
+
+[pic] text text text
+      /xx meters away - yy min ago/ italic
+
+[spacer] [pic] reply reply      
+	       /xx meters away - yy min ago/ italics
+
+[spacer] [nopic] reply reply  [truncated at 250 chars, click to expand <- do that]
+	       /xx meters away - yy min ago/ italics
+	       
+     xyz replies omitted - show all - reply 
+
+repeat for N posts, old posts fall off the bottom. 
+arraycontentprovider?
+
+click a thumbnail: 
+      v 1.0: open the full view in the browser. 
+      v 1.1: open the full view in our app, provide a link to the browser if the user wants to download it.
+
+
+
+On go to bottom: load more old posts when we scroll all the way down. show spinner. don't do this when >500 shown. drop old ones as new ones come in.
+
+MENU: about-> out website
+prefs-> set the default blur radius and loc check ivl.
+
+API issues:
+- supply absolute times, not relative, since the app needs to update them.
+
+N: new post/reply
+
+show the fixed header without the new post button
+
+If called with reply, say "Replying to post #xxx - "First 30 chars..." [if available]
+
+Text box: full width, two lines, onchange/onblur/onkeydown: checkValidity
+
+If it's an OP, "photo required for new post". if none attached "Please attach a photo." in bold
+
+Attach pic: gallery | camera
+
+if pic picked: show spinner while prepping thumb. do not activate post
+button until this is finished (e.g., onvalidate only works once we
+have the resized, downsampled ready & thumb shown). 
+
+Cancel post (confirm w/modal dialog) | post (upload, block until
+successful, return on failure.) on success, send message to main
+screen to pull in this (& other new posts). & force update? v1.1:
+always force update if small # of new posts & nothing pushed off the
+bottom.
+
+cancel thumb by clicking cancel button. 
+
+on post: modal dialog w/cancel btn. (back btn same as cancel button)
+   fail: Failed to post. $Error. go bck.  success: clean form, pop
+   this stack frame, send meage to application that this thread (if
+   reply, reply page, if not, this page) should be reloaded
+   immediately.
+
+
+
+
+F: fullthread view
+
+[show the full thread as above]
+
+

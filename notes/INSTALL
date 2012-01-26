@@ -1,0 +1,56 @@
+apt-get install imagemagick python-mysqldb apache2-mpm-prefork ca-certificates apache2-utils mysql-server  python mysql-client locales libapache2-mod-wsgi mercurial python-pyproj xfsprogs
+
+hg clone . ssh://server/squarechan
+
+(cd ~/squarechan; hg up)
+sudo dpkg -i ~/squarechan/3rdparty/python-django_1.2.1-1_all.deb
+
+echo "CREATE DATABASE squarechan CHARACTER SET utf8; GRANT ALL PRIVILEGES ON squarechan.* TO 'squarechan'@'localhost' IDENTIFIED BY 'some-password';"|mysql -u root -p
+
+edit /etc/mysql/my.cnf
+default-storage-engine = innodb
+
+sudo mv /etc/apache2 /etc/apache2-old
+sudo ln -s /home/jdb/squarechan/apache2 /etc
+
+create thesite/aws_settings.py
+
+
+create a new ebs vol, 
+
+# mkfs.xfs /dev/sdf
+
+service mysql stop
+
+append to /etc/fstab:
+
+/dev/sdf /vol xfs noatime 0 0
+/vol/etc/mysql /etc/mysql     none bind
+/vol/lib/mysql /var/lib/mysql none bind
+/vol/log/mysql /var/log/mysql none bind
+
+
+mkdir /vol
+
+mount /vol
+
+mkdir -p /vol/etc/ /vol/lib/ /vol/log/
+
+mv /etc/mysql /vol/etc
+mv /var/lib/mysql /vol/lib/
+mv /var/log/mysql /vol/log/
+
+mkdir -p /var/lib/mysql /var/log/mysql /etc/mysql
+
+chown -R mysql:mysql /var/lib/mysql /var/log/mysql
+
+mount -a
+
+service mysql start
+sudo service apache2 restart
+
+
+(cd ~/squarechan/thesite; python manage.py syncdb)
+
+
+mod_gzip

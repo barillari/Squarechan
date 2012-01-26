@@ -1,0 +1,184 @@
+{% extends 'mainpage.html' %}
+{% block maindiv %}
+{% if not loc %}
+<div id="set_loc_infobox">
+Welcome to {{sitename}}!<br>
+
+{{sitename}} lets you chat anonymously with people near you. To get started,
+we need to know where you are. (We won't share this without your consent&mdash;see our <a href="/static/privacy.html">privacy policy</a>.)</div>  {%endif%}
+
+<div id="currentlocdiv" {% if not loc %} style="display:none;"{%endif%}>
+  posting from <span id="currentloc">{{loc_fixed}}</span>. showing posts within <span id="current_radius_nice">{{nice_radius}}</span>. <span id="changeloc"></span>
+
+</div>
+<div id="changelocbox" style="display:none;">
+  <div id="closechangebox" class="closebox" style="display:none;"><span class="u">close</span> [x]</div>
+  <div style="font-weight:bold;">Change your location</div>
+  <div style="float:left; margin:10px;text-align:center;">
+    <span id="click2change" style="visibility:hidden;">  Click map to change location:</span>
+    <div style="width:300px; height:300px;background-color:#ccc; " id="map_canvas"></div>
+  </div>
+  <div id="changecontrolsp" style="float:right;">
+    <div class="autofind_unavailable"  style="padding-bottom:15px;">
+      <span style="color:#444;font-size:9pt; border:1px solid #444;">(Your browser does not
+	support automatic geolocation or geolocation has been
+	disabled.)</span>
+    </div>
+    <div id="autofind"  style="padding-bottom:15px;display:none;">
+      <span id="autofindlink" class="u">Attempt to find location automatically</span>
+      <br>
+      <span style="color:#444;font-size:9pt;">      (you may need to enable this feature in your browser)</span>
+    </div>
+    
+    <span id="orenter" class="autofind_available">Or, enter an address:</span>
+    <span class="autofind_unavailable" >Please enter an address:</span>
+    <form action="/" method="GET" onsubmit="return false;">
+      <table><tr>
+	  <td>
+	    <input type="text" id="query" size="32">
+	  </td>
+	  <td>
+	    <button id="lookupaddressbutton">Find</button>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <div id="matches"></div>
+
+    <div id="radius_div">
+      <form action="/" method="post" onsubmit="return false;">
+	Show posts within nearest:
+	<select name="radius" id="radiusselect">
+	  {% for pair in radius_options %}
+	  <option {% ifequal pair.0 radius %}selected{%endifequal%} value="{{pair.0}}">{{pair.1}}</option>
+	  {% endfor %}
+	</select>
+      </form>
+    </div>
+{% comment %}
+    <div id="optionswrapper">
+      <div id="toggleoptionsbox">
+	<img id="optionslarr" style="border:0px;" alt="left arrow" src="/static/famfamfam-bullet_arrow_left.png">
+	<img id="optionsdarr" style="display:none;border:0px;" alt="down arrow" src="/static/famfamfam-bullet_arrow_down.png">
+	<span class="u">Options...</span>
+      </div>
+      
+      <div id="optionsbox">
+	<div id="grid_div">
+	  <form action="/" method="post" onsubmit="return false;">
+	    Round to nearest 
+	    <select name="round" id="roundselect">
+	      {% for pair in round_options %}
+	      <option {% ifequal pair.0 rounding_val %}selected{%endifequal%} value="{{pair.0}}">{{pair.1}}</option>
+	      {% endfor %}
+	    </select>
+	    <span style="font-size:9pt;">[<span class="u" id="whats-this-round">what's this?</span>]</span>
+	    <div id="whats-this-round-div" class="infobox initiallyclosed ninept" style="margin-left:310px;">
+	      {{sitename}} masks your exact
+	      location by snapping it to the nearest point on a
+	      grid. Pick a narrower grid spacing to be more precise about your location, a wider one to be less precise.
+	      <span style="font-size:9pt;">[<span class="u" id="whats-this-round-close">close</span>]</span>
+	    </div>
+	  </form>
+	</div>
+      </div>
+    </div>
+{% endcomment %}
+
+    <div id="new_coords"></div>
+    <div style="margin-top:10px;"> {%comment%} note that text-align:right; here won't work b/c jquery turns disp:none into disp:block, which apparently won't align a blocklevel elem. {%endcomment%}
+    <button style="font-weight:bold;font-size:1.4em;display:none;float:right;" id="acceptnew">Accept &raquo;</button>
+    </div>
+  </div>
+
+  <div class="clearer">&nbsp;</div>
+</div>
+
+<div id="postsholder"  {% if not loc %} style="display:none;"{%endif%}>
+{%if onepostmode %}
+  <h2>viewing one thread</h2>
+  <div class="returntomain">
+    <a href="/">see all threads</a>
+  </div>
+{%else%}
+  <h2>latest</h2>
+  <div id="toppostformdiv">
+  {% include "newpostbox.html" %}
+  </div>
+{%endif%}
+
+<script type="text/javascript">
+IS_MOBILE = false;
+TRUNCATE_REPLIES_TO = {{SHOW_REPLY_COUNT}};
+MAX_POST_LEN = {{MAX_POST_LEN}};
+// note that more available means that there _might_ be more posts available
+MORE_AVAILABLE = {{more_available|yesno:"true,false"}};
+//init_latest();
+</script>
+
+<div id="posts">
+  {% include 'posts_div_contents.html' %}
+</div>
+
+{%if onepostmode %}
+  <div class="returntomain">
+    <a href="/">see all threads</a>
+  </div>
+{%endif%}
+
+
+</div>
+
+<!-- <span id="moar" class="u">moar</span>-->
+
+<div id="no_more_posts">
+No more posts in this area.
+</div>
+
+<div id="loadmorespinner">
+  <img src="/static/loading.gif" alt="loading">
+</div>
+
+
+<script type="text/javascript">
+RADIUS={{radius}};
+ROUND={{rounding_val}};
+NEXT_AFTER_ACCEPT={% if next_after_accept %}"{{next_after_accept}}"{%else%}null{%endif%};
+INITIAL_LOCATION_NEEDED={% if not loc %}true{%else%}false{%endif%};
+IS_MOBILE=false;
+IN_SINGLE_THREAD_VIEW={% if onepostmode or in_thread_view %}true{%else%}false{%endif%};
+MOBILE_POST_FORM_PID=null;
+$(document).ready(
+		  function() {
+                        init_latest();
+                         setup_commment_form();
+                       {% if loc %}
+                       LOC="{{loc}}";
+                       {% endif %}
+                       $("#acceptnew").attr('disabled','true');
+                       run_after_loading_posts();
+
+		      if (geo_position_js.init()) {
+                          GEO_AVAILABLE = true;
+                          $("#autofind").show(); 
+			  //$("#live-geolocation").html(supports(true, "geolocation") + " Please let {{sitename}} view your location."); lookup_location();
+		      } else {
+                            $(".autofind_unavailable").show();
+                            $(".autofind_available").hide();
+                            
+		      }
+                       if (INITIAL_LOCATION_NEEDED) {
+                           change_click();
+                       }
+//                      $("#moar").click(load_more);
+                      $(document).scroll(document_scroll_hook);
+
+
+                      });
+</script>
+{% endblock %}
+
+
+
+
+

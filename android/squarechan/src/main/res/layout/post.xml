@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+  <include layout="@layout/sq_titlebar" />
+  <ScrollView
+     android:layout_width="fill_parent"
+     android:layout_height="fill_parent"
+     android:layout_marginBottom="54dip" 
+     android:padding="6dip"
+     android:fadingEdge="none"
+     android:scrollbarStyle="outsideInset">
+    <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:orientation="vertical">
+      <include layout="@layout/seeking_location_bar" />
+
+<!--      
+      <TextView 
+	 android:id="@+id/post_activity_header"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:textSize="14dip"
+	 android:padding="8dip"
+	 />
+-->
+      <EditText 
+	 android:id="@+id/post_text"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content" 
+	 android:autoText="true"
+	 android:gravity="top"
+	 android:hint="@string/post_text_hint"
+	 android:singleLine="false" 
+	 android:lines="3"
+	 android:layout_margin="10dip" 
+	 />
+
+    <RelativeLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    >
+      <LinearLayout 
+	 android:layout_centerInParent="true"
+	 android:id="@+id/image_preview_bar"
+	 android:orientation="horizontal"
+	 android:layout_height="wrap_content"
+	 android:visibility="gone"
+	 android:layout_width="wrap_content">
+	<ImageView 
+	   android:id="@+id/thumbnail"
+           android:layout_gravity="center_horizontal"
+	   android:layout_width="75dip"
+	   android:layout_height="75dip"
+
+	   />
+<!--	   android:onClick="clickPreviewLargeImage"-->
+	<Button
+	   android:text="@string/detach_image_string"
+           android:layout_gravity="center_horizontal"
+	   android:layout_height="wrap_content"
+	   android:layout_width="wrap_content"
+	   android:onClick="clickDetachImage"
+	   />
+      </LinearLayout>
+    </RelativeLayout>
+
+      <LinearLayout 
+	 android:id="@+id/pick_image_buttons_bar"
+	 android:orientation="vertical"
+	 android:layout_height="wrap_content"
+	 android:layout_width="fill_parent">
+	<Button
+	   android:id="@+id/take_picture_button"
+	   android:text="@string/take_picture_button_string"
+	   android:layout_height="wrap_content"
+	   android:layout_width="fill_parent"
+	   android:onClick="clickTakePicture"
+	   />
+	<Button
+	   android:id="@+id/get_from_gallery_button"
+	   android:text="@string/get_from_gallery_string"
+	   android:layout_height="wrap_content"
+	   android:layout_width="fill_parent"
+	   android:onClick="clickGetFromGallery"
+	   />
+      </LinearLayout>
+      
+    </LinearLayout>
+  </ScrollView>
+  <RelativeLayout
+     android:layout_marginTop="-45dip" 
+     android:padding="0dip"
+     android:layout_alignParentBottom="true"
+     android:gravity="bottom|right" 
+     android:background="@android:drawable/bottom_bar"
+     android:layout_height="fill_parent"
+     android:layout_width="fill_parent">
+    <Button
+       android:id="@+id/cancel_post_button"
+       android:text="@string/cancel_post_button_string"
+       android:onClick="clickCancel"
+       android:minWidth="@dimen/button_minWidth"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_marginBottom="-4dip" 
+       android:layout_alignParentLeft="true"
+       android:layout_centerVertical="false" 
+       />
+    <Button
+       android:id="@+id/post_button"
+       android:text="@string/post_button_string"
+       android:onClick="clickPostButton"
+       android:minWidth="@dimen/button_minWidth"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_marginBottom="-4dip" 
+       android:layout_alignParentRight="true"
+       android:layout_centerVertical="false" 
+       />
+  </RelativeLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,202 @@
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<?xml version="1.0" encoding="utf-8"?>
+	<resources>
+	  <style name="SingleThreadReturn"> <!-- parent="android:Theme.Light"> -->
+	    <item name="android:textSize">16sp</item>
+	    <item name="android:background">#eee</item>
+	    <item name="android:textStyle">bold</item>
+	  </style>
+
+
+	  <style name="SingleThreadReply">
+	    <item name="android:textSize">16sp</item>
+	    <item name="android:background">#ccf</item>
+	    <item name="android:textStyle">bold</item>
+	  </style>
+
+	  <style name="Red">
+<!--	    <item name="android:textSize">16sp</item>
+	    <item name="android:background">#ccffdd</item> 
+	    <item name="android:textStyle">bold</item>
+	    <item name="android:textColor">#ff0000</item> -->
+	  </style>
+
+	  <style name="PostText">
+	    <item name="android:textSize">14dip</item>
+	  </style>
+	  <style name="PostInformation" parent="PostText">
+	    <item name="android:textStyle">bold</item>
+	    <item name="android:textColor">#ff0000</item>
+	  </style>
+
+
+	  <style name="UpdatePostListBar">
+	    <item name="android:background">#cfc</item>
+	  </style>
+
+	  <style name="SQBase" parent="android:Theme.Light"> 
+	    <item name="android:windowNoTitle">true</item>
+<!--	    <item name="android:background">#000032</item>    
+
+<item name="android:windowContentOverlay">@null</item>
+-->
+	  </style>
+
+
+
+
+
+
+	  <style name="SQWebImageViewStyle"> 
+	  </style>
+
+	  <style name="SQStatsBarStyle"> 
+	    <item name="android:gravity">right</item>
+	    <item name="android:layout_marginRight">5dip</item>
+	    <item name="android:textSize">10dip</item>
+	    <item name="android:textColor">#bbb</item>
+	  </style>
+
+	  <style name="SQDivider">
+	    <item name="android:layout_height">1dip</item>
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:background">#ddd</item>
+	    <item name="android:layout_margin">1dip</item>
+	  </style>
+
+	  <style name="SQLoadingHeaderTextStyle">
+	    <item name="android:textSize">18sp</item>
+	    <item name="android:textStyle">bold</item>
+	  </style>
+
+	  <style name="SQLocatingHeaderTextStyle">
+	  </style>
+
+<!-- from google -->
+
+
+    <style name="HomeButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/foreground1</item>
+        <item name="android:background">@null</item>
+    </style>
+
+
+    <style name="TitleBar">
+        <item name="android:id">@id/title_container</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/title_background</item>
+    </style>
+
+    <style name="TitleBarAction">
+        <item name="android:layout_width">@dimen/title_height</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@drawable/title_button</item>
+    </style>
+
+    <style name="TitleBarProgressIndicator" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">14dip</item>
+        <item name="android:layout_marginRight">15dip</item>
+        <item name="android:layout_marginTop">14dip</item>
+        <item name="android:indeterminate">true</item> 
+    </style>
+
+    <style name="TitleBarSeparator">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/title_separator</item>
+    </style>
+
+    <style name="TitleBarLogo">
+        <item name="android:id">@id/title_logo</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="TitleBarSpring">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="TitleBarText">
+        <item name="android:id">@id/title_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/title_text</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
+
+
+    <style name="MyWindowTitle">
+        <item name="android:background">@drawable/title_button</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:color">#fff</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/MyTextAppearance</item>
+        <item name="android:shadowColor">#BB000000</item>
+        <item name="android:shadowRadius">2.75</item>
+    </style>
+
+    <style name="MyWindowTitleCheckingText">
+        <item name="android:paddingRight">8dip</item>
+        <item name="android:textSize">12dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#BB000000</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+
+    <style name="MyTextAppearance">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+<!-- end copy -->
+
+
+
+
+	</resources>

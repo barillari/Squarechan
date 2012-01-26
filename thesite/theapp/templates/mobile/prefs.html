@@ -1,0 +1,89 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% extends 'mobile/base.html' %}
+{% block maindiv %}
+
+{% include 'mobile/nojs.html' %}
+
+<div style="text-align:center;">
+
+  <form id="prefsform" method="POST" action="/m/prefs">
+    <input type="hidden" name="set" value="1">
+    <div class="mobileprefsblock">
+      <div class="mobileprefshdr">Show posts within nearest:</div>
+      <div>
+	<select name="radius" id="radiusselect" class="mobileprefcontrol">
+	  {% for pair in radius_options %}
+	  <option {% ifequal pair.0 radius %}selected{%endifequal%} value="{{pair.0}}">{{pair.1}}</option>
+	  {% endfor %}
+	</select>
+      </div>
+
+      <div class="mobileprefsexplanation">
+      </div>
+
+    </div>
+
+{% comment %}
+    <div class="mobileprefsblock">
+      <div class="mobileprefshdr">Round location to nearest:</div>
+      
+	    <select name="round" id="roundselect" class="mobileprefcontrol">
+	      {% for pair in round_options %}
+	      <option {% ifequal pair.0 rounding_val %}selected{%endifequal%} value="{{pair.0}}">{{pair.1}}</option>
+	      {% endfor %}
+	    </select>
+
+      <div class="mobileprefsexplanation">
+	      {{sitename}} masks your exact location by snapping it to
+	      the nearest point on a grid. Pick a narrower grid
+	      spacing to be more precise about your location, a wider
+	      one to be less precise.
+
+      </div>
+{% endcomment %}
+
+</div>
+
+<input type="submit" style="width:100%;font-size:1.2em;margin-bottom:1em;" value="Save preferences"/>
+
+  <div class="mobilebuttondiv">
+    <span id="mobile-newpost-bottom" class="u mobilebuttonlink mobile-newpost-button"><a href="/m">Cancel</a></span>
+  </div>
+
+</div>
+</form>
+</div>
+
+
+<script type="text/javascript">
+var ADDRESS = null;
+var NEXT = null;
+$(document).ready(function() {
+       setup_commment_form();
+       $("#prefsform").submit(mobile_prefs_update);
+});
+</script>
+
+
+{% endblock %}

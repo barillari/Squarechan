@@ -1,0 +1,81 @@
+<!--
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<manifest 
+   android:versionName="1.3.3" 
+   android:versionCode="15" 
+   package="com.squarechan.android" 
+   xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="6"></uses-sdk>
+    <application android:icon="@drawable/ic_app_iconDEBUGTAG" 
+                 android:label="@string/app_name" 
+		 android:name=".SQApp" 
+    		 android:debuggable="ANDROID_DEBUGGABLE">
+
+<!-- 		  i'm using FLAG_ACTIVITY_REORDER_TO_FRONT instead of android:launchMode="singleTask"; see notes for Wed Dec 22 13:31:31 EST 2010
+-->
+        <activity android:label="@string/app_name" 
+		  android:theme="@style/SQBase"
+		  android:name=".ThreadListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".SplashScreen"
+            android:label="@string/app_name"
+            android:configChanges="locale"
+            android:theme="@style/SQBase"
+            >
+        </activity>
+
+        <activity android:name=".OneThreadActivity"
+            android:label="@string/single_thread_view_title"
+            android:configChanges="locale"
+            android:theme="@style/SQBase"
+            >
+        </activity>
+
+        <activity android:name=".NewPostActivity"
+            android:label="@string/create_post_title"
+            android:configChanges="locale"
+            android:theme="@style/SQBase"
+            >
+
+	    <!-- 	    http://stackoverflow.com/questions/4182299/how-to-get-the-data-from-share-picture-via-dialog-on-android -->
+            <intent-filter>
+              <action android:name="android.intent.action.SEND" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <data android:mimeType="image/*" />
+            </intent-filter>
+
+
+        </activity>
+
+
+
+    </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+</manifest>

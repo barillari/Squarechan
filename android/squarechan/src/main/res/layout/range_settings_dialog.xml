@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- based on ApiDemos from the android sdk 
+      Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!--   android:theme="@style/SQBase" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:theme="@android:style/Theme"
+    style="@android:style/Theme"
+    android:orientation="vertical">
+
+
+    <TextView 
+       android:textColor="#fff"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_marginLeft="20dip"
+       android:layout_marginRight="20dip"
+       android:text="@string/radius_title_text"
+       android:gravity="left"
+        />
+
+    <Spinner 
+        android:id="@+id/radius_spinner"
+       android:layout_marginLeft="20dip"
+       android:layout_marginRight="20dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/see_posts_within_nearest"
+    />
+
+<!--            
+    <TextView 
+       android:textColor="#fff"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_marginLeft="20dip"
+       android:layout_marginRight="20dip"
+       android:text="@string/rounding_title_text"
+       android:gravity="left"
+        />
+            
+
+    <Spinner 
+        android:id="@+id/rounding_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/error"
+    />
+
+    <TextView 
+       android:textColor="#0000ff"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_marginLeft="20dip"
+       android:layout_marginRight="20dip"
+       android:textSize="10sp"
+       android:text="@string/whats_this"
+       android:gravity="right"
+       android:onClick="clickRangeWhatsThis"
+       />
+-->
+
+</LinearLayout>

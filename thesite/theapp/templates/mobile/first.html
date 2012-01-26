@@ -1,0 +1,113 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% extends 'mobile/base.html' %}
+{% block maindiv %}
+
+{% include 'mobile/nojs.html' %}
+
+<div id="android-shutter">
+  <div id="android-shutter-inner">
+    <h2>{{sitename}}</h2>
+    <div id="android-blurb-header">
+      Try Squarechan's Android app!
+    </div>
+
+    <div id="android-shutter-ul-div">
+    <ul>
+      <li>Faster than the mobile website.</li>
+      <li>Lets you post pictures directly from your phone's camera.</li>
+      <li>Free!</li>
+    </ul>
+    </div>
+
+    <div class="mobilebuttondiv">
+      <span class="u mobilebuttonlink"><a href="market://details?id=com.squarechan.android">Get it now!</a></span>
+    </div>
+
+    <div class="mobilebuttondiv">
+      <span class="u mobilebuttonlink" id="nothanksdroid" style="font-size:0.8em;">No thanks; maybe later</span>
+    </div>
+  </div>
+</div>
+
+<div id="everything-else">
+  <h2>Welcome to {{sitename}}!</h2>
+
+<p>{{sitename}} lets you chat anonymously with people around you.</p>
+
+<p>To get started, please tell us where you are. <br><span class="fineprint">We won't disclose this
+without your permission (see
+our <a href="/static/privacy.html">privacy policy</a>). If you're
+concerned, you can always say you're someplace else. :)</span></p>
+
+
+<div class="mobilebuttondiv autofind_available" id="autofind">
+<span id="autofindbutton" class="u mobilebuttonlink">Try to determine location automatically</span>
+</div>
+
+<div id="lookinguplocation">
+Looking up location...
+</div>
+<div id="lookinguplocation-success">
+Success! Loading map...
+</div>
+<div id="lookupfailed" class="failmessage">
+Auto-locate failed. Please enter location manually:
+</div>
+
+<div class="autofind_available">
+Alternately, enter an address: 
+</div>
+<div class="autofind_unavailable">
+Please enter an address: 
+</div>
+<form id="select-address-form" method="GET" action="/m/select-address">
+<input name="address" type="text" style="width:100%;"/>
+<div style="text-align:center;">
+<input type="hidden" name="next" value="{{next}}"/>
+<input type="submit" value="Lookup address"/>
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+                     var NEXT="{{next}}";
+                     setup_commment_form();
+                     $("#autofindbutton").click(do_mobile_location_lookup);
+//                     $("#select-address-form").submit(select_address_js); // use this to do a hashtag lookup for moar speed...later
+		      if (geo_position_js.init()) {
+                          GEO_AVAILABLE = true;
+                          $(".autofind_available").show(); 
+                          $(".autofind_unavailable").hide();
+		      } else {
+                            $(".autofind_unavailable").show();
+                            $(".autofind_available").hide();
+                            
+		      }
+                      maybe_show_android_overlay();
+                      });
+</script>
+
+
+{% endblock %}

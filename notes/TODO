@@ -1,0 +1,214 @@
+make rounding adjustible on mobile site (use a cookie.)
+make sure next= is carried all the way through the mobile site
+concentric circle view
+
+really critical:
+       - a name. 
+
+critical:
+	faq/docs/tos
+	improve location detection
+	test location on other devices
+
+maybe sooner:
+      mobile site	
+      put a map on the main page
+
+maybe later:
+
+		- accounts
+			- deletion
+		
+   	  	- do the r-tree for search (3-way, with time?)
+		- flagging: as-needed (nsfw most important. maybe just create an nsfw mode and move those posts to it.)
+		- captchas: as-needed
+		- comet: just f5, man
+
+
+Tue Nov  9 19:10:23 EST 2010
+
+Wed Dec 15 17:18:01 EST 2010
+
+on android prevent post b4 location known
+
+
+TODO: -redir to getloc on thread view if no cookie set, redir through
+   next (& for mobile) -- DONE
+TODO: - put a "CLICK ME" indicator near the geobar
+
+Wed Dec 22 13:09:33 EST 2010
+
+DONE prevent post from being trashed if we switch away
+fix sorting
+DONE make sure we aren't hanging on to stale locs in lock caching
+sort out random crash on pic upload
+- future: click map for loc
+DONE cache thumbnails
+
+Fri Dec 24 15:26:15 EST 2010
+
+show some indication that loc has been found/failed.
+
+--> future: periodically check location when saved w/cookie. fail
+   silently, but prompt if it changes by more than 100m. and take note
+   of when it last changed. etc.
+
+Sat Dec 25 18:19:35 EST 2010
+
+--> expire old locs more aggressively
+
+
+Fri Jan  7 14:27:49 EST 2011
+
+notify on android if someone replies to your post?
+expire posts?
+
+
+Tue Jan 11 18:20:13 EST 2011
+
+fix crash when display rotated while select-range is open. happens
+   like this:
+
+
+I/WindowManager( 1086): Setting rotation to 1, animFlags=0
+I/ActivityManager( 1086): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=164}
+V/sq      (15157): SQAPP: onConfigurationChanged({ scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=164})
+V/sq      (15157): onSaveInstanceState called! bundle=Bundle[{android:viewHierarchyState=Bundle[{android:views=android.util.SparseArray@4476d090}]}]
+I/UsageStats( 1086): Unexpected resume of com.squarechan.android while already resumed in com.squarechan.android
+V/sq      (15157): onSaveInstanceState: bundling state={"posts":[{"id":1,"latest_update":1294761026000,"created":1294680070000,"hidden":8,"deletable":false,"children":[{"id":10,"latest_update":1294757295000,"created":1294757295000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0},{"id":11,"latest_update":1294757973000,"created":1294757973000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0},{"id":12,"latest_update":1294761026000,"created":1294761026000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0}],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0}],"meta":{"current_zone":18,"current_time":1294788066739,"current_y":4513933,"current_x":588290}}
+V/sq      (15157): TLA lifecycle: onPause called
+V/sq      (15157): stopCheckingLocation(): called
+V/sq      (15157): eraseCurrentListener(): eraseCurrent called on:com.squarechan.android.LocationFindingTrait$$anon$3@447d1ac8
+V/sq      (15157): eraseCurrentListener(): eraseCurrent erasing...
+V/sq      (15157): TLA lifecycle: setRadiusDialog=android.app.AlertDialog@447f5ff8
+V/sq      (15157): TLA lifecycle: closing set-radius dialog
+V/sq      (15157): TLA lifecycle: onStop called
+V/sq      (15157): TLA lifecycle: onDestroy called
+E/WindowManager(15157): Activity com.squarechan.android.ThreadListActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@447a9228 that was originally added here
+E/WindowManager(15157): android.view.WindowLeaked: Activity com.squarechan.android.ThreadListActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@447a9228 that was originally added here
+E/WindowManager(15157): 	at android.view.ViewRoot.<init>(ViewRoot.java:247)
+E/WindowManager(15157): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:148)
+E/WindowManager(15157): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:91)
+E/WindowManager(15157): 	at android.view.Window$LocalWindowManager.addView(Window.java:424)
+E/WindowManager(15157): 	at android.app.Dialog.show(Dialog.java:241)
+E/WindowManager(15157): 	at android.app.AlertDialog$Builder.show(AlertDialog.java:802)
+E/WindowManager(15157): 	at android.widget.Spinner.performClick(Spinner.java:257)
+E/WindowManager(15157): 	at android.view.View$PerformClick.run(View.java:8816)
+E/WindowManager(15157): 	at android.os.Handler.handleCallback(Handler.java:587)
+E/WindowManager(15157): 	at android.os.Handler.dispatchMessage(Handler.java:92)
+E/WindowManager(15157): 	at android.os.Looper.loop(Looper.java:123)
+E/WindowManager(15157): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/WindowManager(15157): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/WindowManager(15157): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/WindowManager(15157): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:858)
+E/WindowManager(15157): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+E/WindowManager(15157): 	at dalvik.system.NativeStart.main(Native Method)
+V/sq      (15157): TLA lifecycle: onCreate called; app =  com.squarechan.android.SQApp@447771c0
+V/sq      (15157): plv =  com.squarechan.android.SQListView@4482d230
+V/sq      (15157):  decodeJSON: got meta {"current_zone":18,"current_time":1294788066739,"current_y":4513933,"current_x":588290}
+V/sq      (15157):  decodeJSON: setting current_zone to 18
+V/sq      (15157):  decodeJSON new time offset 15574
+V/sq      (15157):  inflatePosts:1
+V/sq      (15157):  inflatePosts:3
+V/sq      (15157): TLA lifecycle: onStart called
+V/sq      (15157):  lifecycle: onResume called
+V/sq      (15157): startCheckingLocation(): force=false
+V/sq      (15157): startCheckingPosts(): called
+V/sq      (15157):  FTT.before() called on ctx:com.squarechan.android.ThreadListActivity@44776be8
+D/AndroidRuntime(15157): Shutting down VM
+W/dalvikvm(15157): threadid=1: thread exiting with uncaught exception (group=0x4001d7e0)
+E/AndroidRuntime(15157): FATAL EXCEPTION: main
+E/AndroidRuntime(15157): java.lang.IllegalArgumentException: View not attached to window manager
+E/AndroidRuntime(15157): 	at android.view.WindowManagerImpl.findViewLocked(WindowManagerImpl.java:355)
+E/AndroidRuntime(15157): 	at android.view.WindowManagerImpl.removeView(WindowManagerImpl.java:200)
+E/AndroidRuntime(15157): 	at android.view.Window$LocalWindowManager.removeView(Window.java:432)
+E/AndroidRuntime(15157): 	at android.app.Dialog.dismissDialog(Dialog.java:278)
+E/AndroidRuntime(15157): 	at android.app.Dialog.access$000(Dialog.java:71)
+E/AndroidRuntime(15157): 	at android.app.Dialog$1.run(Dialog.java:111)
+E/AndroidRuntime(15157): 	at android.app.Dialog.dismiss(Dialog.java:268)
+E/AndroidRuntime(15157): 	at android.widget.Spinner.onDetachedFromWindow(Spinner.java:86)
+E/AndroidRuntime(15157): 	at android.view.View.dispatchDetachedFromWindow(View.java:6033)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1158)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.dispatchDetachedFromWindow(ViewRoot.java:1630)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.doDie(ViewRoot.java:2671)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.handleMessage(ViewRoot.java:1948)
+E/AndroidRuntime(15157): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+E/AndroidRuntime(15157): 	at android.os.Looper.loop(Looper.java:123)
+E/AndroidRuntime(15157): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/AndroidRuntime(15157): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/AndroidRuntime(15157): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/AndroidRuntime(15157): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:858)
+E/AndroidRuntime(15157): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+E/AndroidRuntime(15157): 	at dalvik.system.NativeStart.main(Native Method)
+W/ActivityManager( 1086):   Force finishing activity com.squarechan.android/.ThreadListActivity
+D/libgps  ( 1086): GpsInterface_stop()
+V/BetterAsyncTask(15157): doInBackground called
+V/BetterAsyncTask(15157): ready to get ctx
+V/BetterAsyncTask(15157): got ctx
+V/BetterAsyncTask(15157): calling dcib ctx:com.squarechan.android.ThreadListActivity@44776be8 pars:[Lcom.squarechan.android.PostParams;@4482ba70
+V/sq      (15157):  FTT.doCheckedInBackground() called
+V/sq      (15157):  FTT.doCheckedInBackground() ...... on ctx:com.squarechan.android.ThreadListActivity@44776be8 with params com.squarechan.android.PostParams@447eddb0
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground() building request uri:http://dev.squarechan.com/latest-ajax?json=1&loc=40.771639%2C-73.953797&postids=1&radius=1000
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground(): 1 executing request...
+E/libgps  ( 1086): recv_command_status() : fix returned error code 9
+E/libgps  ( 1086): numsats histogram: 8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+E/libgps  ( 1086): sats histogram: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+D/libgps  ( 1086): status_cb: GPS_STATUS_SESSION_END (2)
+D/LocationMasfClient( 1086): getNetworkLocation(): Returning cache location with accuracy 649.0
+D/libgps  ( 1086): GpsInterface_inject_location( 40.771639, -73.953797, 649.000 )
+D/dalvikvm(15157): GC_FOR_MALLOC freed 3472 objects / 485272 bytes in 114ms
+W/ActivityManager( 1086): Activity pause timeout for HistoryRecord{44b9e838 com.squarechan.android/.ThreadListActivity}
+D/dalvikvm( 1086): GC_EXPLICIT freed 3544 objects / 165832 bytes in 209ms
+I/WindowManager( 1086): Setting rotation to 0, animFlags=1
+I/ActivityManager( 1086): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=1 layout=34 uiMode=17 seq=165}
+D/dalvikvm( 1086): GC_EXPLICIT freed 1260 objects / 54192 bytes in 127ms
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground(): response returned. checking status code
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground() got 200 OK
+V/sq      (15157):  decodeJSON: got meta {"current_zone":18,"current_time":1294788068000,"current_y":4513933.76889,"current_x":588290.984718}
+V/sq      (15157):  decodeJSON: setting current_zone to 18
+V/sq      (15157):  decodeJSON new time offset 18524
+V/sq      (15157):  inflatePosts:1
+V/sq      (15157):  inflatePosts:3
+V/BetterAsyncTask(15157): ...done calling dcib
+V/BetterAsyncTask(15157): ...returning from dib
+
+
+
+my guess is that onDetachedFromWindow of the Spinner isn't being
+   called, but I have more pressing issues atm.
+
+Tue Jan 11 21:16:06 EST 2011
+
+stop loading delete-post links when reloading single-thread
+
+
+Wed Jan 12 17:04:08 EST 2011
+
+stop launching the camera activity twice 
+
+Wed Jan 12 17:33:31 EST 2011
+
+collapse unneeded buttons from menu - done?
+force wait between unforced checks 
+prepend new posts to toplevel w/o reload
+Not reverting deleted bulk in onview?
+
+Wed Jan 12 21:22:51 EST 2011
+
+FIXME: is dropOutOfRangePosts even being used? it looks like we might
+   be dropping everything before/during reload? (or is that after
+   reload and during repaint, when we _do_ drop everything?)
+
+FIXME: test large-#-of-posts perf.
+
+
+Fri Jan 14 17:25:36 EST 2011
+
+change "new post" to "updated post"? or just don't show it when we
+   deleted something or made our own post.

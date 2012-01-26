@@ -1,0 +1,1526 @@
+Sun Oct 24 19:24:07 EDT 2010
+
+ah, back to lilly's massage idea.
+
+who would use it? well, there's an exhabitionist sense, a confessory
+sense, and an added thrill that the person you're seeking might be 100
+m away (let's snap it to 100 m in manhattan by default for anonymity,
+1000m elsewhere, but let the user override this (in either direction
+-- set it to NYC (where do we target these? we don't want to put them
+in the geo center, or that gets overwhelmed), or maybe they only show up at a certain zoom level.
+
+absolute minimum:
+
+- geolocation of the user (manual or geoapi based)
+
+- showing posts that are within X meters of user (10, 100, 1000, etc.)
+  maybe an html5 slider or just a spinner to start with. -> round up
+  if there are no posts nearby
+
+posts look like this. [image?]	post text, like twitter. 180chr limit like twitter?   	       
+      	   	      [distance from me->click to reveal where [hide
+      	   	      this? no, silly. if you want that, go to cl, or
+      	   	      fuzz your location..]]
+      	   	      [Anonymous or username? userpic?]	 [reply button?] 
+
+posting:
+box in which to type stuff
+[              upload pic?]
+[              tripcode or auth system? -> tripcodes are too darn complicated]
+[	       location accuracy: round to nearest 100 meters [1000/10 km/100 km/don't round]]
+[	       password to delete (if you don't have an account) ]
+[ 	       limit to people within: 10/100/1000/10000m/100000m/no limit] 
+	       	     [note that more people won't necessarily see your post if you se this too high]
+[	       override location -> error if we can't figure it out.]
+[	       email for pseudonomous replies? bidirectional anonymization? <- not version 1.0. just use 10minutemail.com <- but then we need replies/threading ]
+
+Is replying important? do we want threading? does that encourage fail? 
+
+all politics is local. romance is mostly local. sex is always local. so is much commerce.
+
+foursquare for adults? non-hipsters?
+
+
+-> no 180chr limit. we're not in smsland. BUT, do have a cutoff length. 
+
+slider lets you set viewable area. location override lets you change
+your location (shown in google maps iframe? with a circle for ambiguity). update lets you
+force-update.
+
+keep it clean, y'all. (should there be a pervert flag/adult bit?)
+
+on first visit:
+
+   - we need to know where you are. if you have a browser capable of
+     geo-location, please fourplay.com see your location. (we'll never
+     share it without your permission; see our privacy policy). 
+     alternately, you can enter an address here:
+     [address, city, state, zip			] [go]
+
+
+Foursome lets you connect with people near you. 
+	 cure for urban alienation.
+
+can we resolve addresses to coords with some google api?
+
+http://en.wikipedia.org/wiki/Wikipedia:Obtaining_geographic_coordinates
+
+
+draggable location
+
+Post
+text text text text text text text 
+text text text text text text text 
+text text text text text text text     
+Post as [anonymous]
+Post location: [              ]
+     	       Rounded to nearest 100m [change]. [why?]
+     	       [update now]
+	       [enter location]
+
+
+FAQ
+
+Q: What's the point of Partyline?
+
+A: The idea behind partyline is to connect with your fellow
+   city-dwellers. In a metropolis, you most likely know more about
+   friends halfway around the world than the people living one floor
+   above you. Partyline lets you meet and connect with the people
+   around you in a safe online environment, where you can reveal as
+   much or as little information as you wish to.
+
+   Partyline is the inverse of Twitter. Whereas Twitter lets you
+   communicate with people regardless of where they are, Partyline
+   lets you communicate with people in a given place, regardless of
+   who they are.
+
+
+Q: How do you protect privacy?
+
+A: We take privacy very seriously at partyline. Your data---especially
+   your location data---is never and will never be shared without your
+   explicit consent. We use industry-standard security measures to
+   protect your data in transit and during storage.
+
+
+Q: Will random people know where I am when I post to partyline?
+
+A: You can reveal as much or as little information as you want about
+   where you are. By default, Partyline publishes your location
+   rounded to the nearest 100 meters in cities {{and 1 kilometer
+   everywhere else}}. You can also change the location to whatever you
+   want---but we recommend that you only do this if it's actually funny.
+
+   -> new api: search a particular location. eg partyline.com/s/loc/-47.1388182,70.281292
+
+Q: How do I delete a post?
+
+A: If you're logged in and post from your account, you can delete any
+of your posts at any time, even those you posted anonymously.  Just
+click the post's trash-can icon.
+
+If you're not logged in, Partyline will remember what posts are yours
+for at least six hours---as long as you keep your browser open and
+don't clear your cookies. As before, click the trash-can to delete
+them. If you wait too long, clear your cookies, close your browser, or
+otherwise lose your Partyline session, Partyline will no longer know
+which posts you made, so you won't be able to delete them---so if you
+plan to delete a post, don't hesitate. 
+
+Q: How can I change a post?
+
+A: You can't change a post, but you can delete it and post an updated
+   version.
+
+
+Q: How do I get private responses to a post?
+ 
+A: We recommend providing a throwaway email address from a service
+   like 10minutemail.com or mailinator.com. Partyline does not have a
+   built-in mail redirector like Craigslist. If you would like one,
+   let us know at suggest@partyline.com.
+
+
+
+Q: What if I see something copyright-infringing, libelous, or illegal
+   on Partyline?
+
+
+A: Please let us know immediately at abuse@partyline.com. Please
+   include a link to the offending post so we can find it.
+
+
+Q: What should I do with my comments or suggestions about Partyline?
+
+A: Mail them to suggest@partyline.com. Or post them near our offices. ;)
+
+
+API functions:
+
+create post. this is a POST api. just submit a post to
+
+grapevine.com/-/api/post
+
+
+0 content - text, optional. supports no formatting. urls, hashtags, and @refs are auto-linked. 
+2 is_anonymous - boolean, default true.
+2 auth_token - required to use the API (so we can prevent spam). you're still anonymous unless you set is_anonymous to true
+0 location_latitude - float, required
+0 location_longitude  - float, required
+0 location_accuracy - float, meters, optional, shows the blur radius around your location
+x location_name - optional, text description (e.g., "NoLita"; "your mom's bedroom") <- ?? not nowe	
+1 picture - binary, optional, maximum size 1 meg, ok formats: jpg, gif, png. keep it small for mobile users. (might be downsampled & resized mercilessly)
+1 reply_email - email address, used to channel private replies, optional
+1 password - optional, used to delete if you aren't logged in <-> not needed if auth-token supplied
+
+get back: {success: true|false; postid: null|id; error: null|msg}
+
+search posts: GET to
+grapevine.com/-/api/search
+
+location_latitude - float, required
+location_longitude  - float, required
+suggested_radius - float, meters, optional, defaults to 500, pull in anything whose center is here. 
+		  - what if the blur radius overlaps? especially if it's huge, like 10km? then we have to decide how cool it is.
+		    for now, don't let people blur too much. 1km at most. 
+enforce_radius - do not return anything outside that radius
+only_after - int, optional, only request items after time (unix timestamp)
+block - used for long polling. only return if we have something, otherwise block.
+reply_to: post_id to reply to
+
+get back [ list-of 
+
+{  time
+   lat
+   long
+   rad
+   message
+   uname/null [for anon]
+   picture_url|null
+
+}
+
+keywords-optional, donwnplayed as less important.
+
+search will never return *nothing*, unless enforce_radius is set. if it is not, we'll keep expanding to fill the whole thing.
+
+
+/-/api/pm - text, pid: sends private message. get back success or failure. [or shld we use email for this? double-anon is hard to implement. how abt single anon?]
+
+HOW ABOUT WE USE THE BRANDING CAPTCHAS 
+
+
+
+
+optional:
+userpics?
+
+fun stuff:
+
+
+Tue Oct 26 20:10:36 EDT 2010
+
+basics
+
+entry -> no location cookie set
+      -> Welcome.    
+      	 To show you what's happening near you, we need to know where you are.
+	 (we won't share this without your consent. see our privacy policy)
+
+	 IF browser supports it:
+	    Your browser might support geolocation. If you enable it, we can find your location automatically.
+
+	 Else:
+	    Please enter an address.
+
+
+	 Once the address is resolved, (refresh).
+
+	 [post box]
+	 
+	 [ recent posts near me ] 
+
+	 
+
+Fri Oct 29 01:06:13 EDT 2010
+
+even if we never show the location, we need to snap to grid, because a
+clever malicious user could find the target location by walking around
+it and seeing when it appears.
+
+Fri Oct 29 02:29:02 EDT 2010
+
+todo: 
+   	  	- rounding step
+   	  	- do the r-tree for search (3-way, with time?)
+		- after snapping to grid, blur the reported distance even if it is close (e.g., someone rounded to 1km is _never_ closer than 1km away)
+		- paging?
+		- picz
+		- captchas
+		- deletion (session based, account based)
+		- faq/docx.
+		- accounts
+
+less important:
+		- flagging
+
+very less important:
+		- cardinal direction arrows?
+
+
+
+done:
+		- post length limit?
+
+Fri Oct 29 13:06:42 EDT 2010
+
+rounding/gridding:
+	grid values are x,y in m on a rectangular projection of the earth.
+	project lat,lng to x,y snap to grid (simple rounding) x',y'.
+	the distortion should not be a big deal because we're not dealing with big distances.
+	use mercator, actually; that's what google uses.
+
+
+Sat Oct 30 20:46:37 EDT 2010
+
+why is it that proj doesn't seem to have an obvious way to _calculate_
+the utm zone, not pas it as a param? whytf would I want to do that? 
+
+http://search.cpan.org/~sderle/Geo-Proj4-0.11/Proj4.pm
+  To Convert from Lat/Long to UTM:
+  #!/usr/bin/perl
+
+  use strict;
+  use Geo::Proj4;
+
+  my $proj = Geo::Proj4->new( proj => "utm", zone => 10 );
+  my ($x, $y) = $proj->forward(38.40342, -122.81856);
+  print "conversion to UTM: y is  $y\n";
+  print "conversion to UTM: x is  $x\n";
+
+  my ($lat, $long) = $proj->inverse($x, $y);
+  print "inverse conversion: lat is $lat \n" ;
+  print "inverse conversion: long is $long \n" ;
+
+geographic lib does. there's a utility, but I'd rather bind it with ctypes (no proc overhead)
+
+be sure to run geographiclib-datasets-download
+
+
+
+Sun Oct 31 16:22:51 EDT 2010
+not anymore lol
+        found = Post.objects.raw("SELECT * FROM theapp_post WHERE 2 * ASIN(SQRT(POW(SIN((%s-RADIANS(latitude))/2),2) + "
+                         "COS(RADIANS(latitude))*COS(%s)*POW(SIN((%s-RADIANS(longitude))/2),2))) * 6371010 < %s ORDER BY created DESC LIMIT %s",
+                         [loc.latrad(), loc.latrad(), loc.longrad(), dist, num])
+
+
+Sun Oct 31 19:43:39 EDT 2010
+
+looks like there's no way to trigger the button  with js, but there are some hacks:
+
+http://stackoverflow.com/questions/210643/in-javascript-can-i-make-a-click-event-fire-programmatically-for-a-file-input-e
+<div style="display: block; width: 100px; height: 20px; overflow: hidden;">
+<button style="width: 110px; height: 30px; position: relative; top: -5px; left: -5px;"><a href="javascript: void(0)">Upload File</a></button>
+<input type="file" id="upload_input" name="upload" style="font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px;; left: -20px" />
+</div>
+
+ 
+http://valums.com/ajax-upload/ --- this does _not_ degrade well on android; doesn't work at all (but that may be the js part, not the ajax part)
+
+since hiding the field would also mean adding more UI to detatch the
+picture, am tempted to just leave it alone: add a field for it. Maybe
+hide it with a link (we're adding one click, though). for now: just leave it.
+
+forget the "ajax upload": for now, we'll just do a submit and a redirect.
+
+Tue Nov  2 20:46:12 EDT 2010
+
+voice?
+
+
+
+
+
+Fri Nov  5 16:15:03 EDT 2010
+
+features:
+
+todo: 
+		- paging?
+		  - easy, just step back. conflicts with 4chan like expiration
+		    (expiration might encourage posting, but deters linking. on balance, I think we should have expiry...) 
+		    - paging could be 4chan like or date based. advantage of 4chan-like is that if the user gets confused, and keeps reloading the paged version
+		      they will keep seeing new material.
+
+		- faq/docx.
+
+		- accounts
+			- deletion
+		
+		- page-per-post [ for links ] ==> do not immediately prompt for address, but if the user clicks reply, 
+                                                  then open the address box...as a modal dialogue box.
+				- replies
+
+
+less important:
+		- deletion (session based, account based, password based?)
+   	  	- do the r-tree for search (3-way, with time?)
+		- flagging: as-needed (nsfw most important. maybe just create an nsfw mode and move those posts to it.)
+		- captchas: as-needed
+		- comet: just f5, man
+		  
+
+
+very less important:
+		- cardinal direction arrows?
+
+
+
+
+
+--->
+- accept button is grayed-out, not hidden, when unused
+- say "searching... <spinner>" and show timeout time?
+  --> if it fails, say "failed! try entering manually.
+
+  --> "see bigger map" link: fill the screen with the map. Add a "close" button at the top.
+
+
+Sun Nov  7 20:56:50 EST 2010
+
+ok, the reply issue: - we won't support threading yet. quite frankly
+it's a pain in the ass and has no huge benefits. light threads (e.g.,
+you can put a >>number in your response and clicking it takes you to
+that #hash would be not too hard. we can add that. later, of course.
+
+for now, to avoid having O(N) db calls for every N OPs we want on the
+main page, we need to do one of the following:
+
+- fetch all posts w/ subquery for last linked post (stored in a field) [plus counts of regular and image reply posts]
+- supercomplex query with lots of self-joins to get the last/first/both N posts for each OP 
+- fetch all posts followed by fetch all replies to those posts. (easiest...)
+
+- future: stick the canonical "full page" and "abbreviated" views in
+  memcached when posting, since it's expected that views >> posts. if
+  we need to regenerate anything, fetch just that. 
+
+- put soft hyphens in huge words
+
+
+Tue Nov  9 01:08:53 EST 2010
+from http://www.ajaxload.info/cache/FF/FF/FF/00/00/00/12-1.gif
+convert  /home/jdb/Downloads/12-1.gif -scene 1 +adjoin frame_%03d.gif
+convert -delay 7 frame_005.gif frame_004.gif frame_003.gif frame_002.gif frame_001.gif -loop 0 animation.gif
+
+
+http://www.ajaxload.info/cache/BF/BF/FF/00/00/00/12-0.gif
+jdb@slim:/tmp$ convert  /home/jdb/Downloads/12-0.gif -scene 1  +adjoin frame_%02d.gif
+jdb@slim:/tmp$ 
+jdb@slim:/tmp$ convert -delay 7 frame_05.gif frame_04.gif frame_03.gif frame_02.gif frame_01.gif -loop 0 blue.gif
+
+
+Tue Nov  9 13:04:08 EST 2010
+
+it looks like there's no way to tell the difference between "waiting
+for user to say "yes"" and "waiting for the glacially slow geoloc to
+complete", so I guess we can't use a countdown timer
+
+
+Tue Nov  9 15:18:41 EST 2010
+
+todo still:
+
+really critical:
+       - a name. 
+
+critical:
+	faq/docs/tos
+	improve location detection
+	test location on other devices
+
+maybe sooner:
+      mobile site	
+      put a map on the main page
+
+maybe later:
+
+		- accounts
+			- deletion
+		
+   	  	- do the r-tree for search (3-way, with time?)
+		- flagging: as-needed (nsfw most important. maybe just create an nsfw mode and move those posts to it.)
+		- captchas: as-needed
+		- comet: just f5, man
+
+
+Tue Nov  9 19:10:23 EST 2010
+
+- 4chan-style paging sucks, because the content on the pages is always
+  changing, so you can both miss items and see dupes by following the
+  pages. can avoid this only if you open all pages at once.
+
+
+- alternative to paging: do something like twitter: go to the very
+  bottom, load another 20 threads. make sure they aren't threads we've
+  seen before ( we lose lose lose on rapidly-updated threads [which we
+  _could_ also update twitter-style by saying "new responses!" 
+
+
+
+Tue Nov  9 23:59:53 EST 2010
+how to prevent crapflooding? require image? (that only makes it slightly harder)
+
+
+Sun Nov 21 11:54:44 EST 2010
+
+
+git clone git://github.com/mosabua/maven-android-sdk-deployer.git
+cd maven-android-sdk-deployer/platforms/android-3
+mvn install -Dandroid.sdk.path=/home/jdb/dl/android-sdk-linux_86/
+
+mvn package
+mvn install -DcopyTo=/home/jdb/squarechan/android/squarechan/lib/
+mvn javadoc:jar
+
+
+
+
+mvn complained that it can't find this:
+
+1) com.google.android.maps:maps:jar:8_r2
+
+  Try downloading the file manually from the project website.
+
+  Then, install it using the command: 
+      mvn install:install-file -DgroupId=com.google.android.maps -DartifactId=maps -Dversion=8_r2 -Dpackaging=jar -Dfile=/path/to/file
+
+...I couldn't either, so I just gave it version 7 b/c I'm not *using* maps w/droid-fu
+
+jdb@slim:~/dl/droid-fu$ mvn install:install-file -DgroupId=com.google.android.maps -DartifactId=maps -Dversion=8_r2 -Dpackaging=jar -Dfile=./add-ons/google_apis-7_r01/libs/maps.jar
+
+jdb@slim:~/dl/droid-fu$ mvn install -DcopyTo=/home/jdb/squarechan/android/squarechan/lib/
+
+
+Sun Nov 21 14:16:54 EST 2010
+
+at some point, we may want to build jpeg bundles that ship all the
+images at once. but i'm not even sure that's a win. we ditch the
+overhead of making new connections (if we don't use pipelining) but we
+now have to wait for all images to come in before we unpack them
+(unless we stream them through the unpacker...not sure it's worth it.)
+
+
+
+Sun Nov 21 23:30:50 EST 2010
+
+so nested listviews are a bad idea. we'll do this:
+
+http://stackoverflow.com/questions/3135112/android-nested-listview
+
+
+PostArrayAdapter -> populates the thread list with abbrev_thread.xml
+layouts.
+
+Listview of: single_op.xml
+
+vertical LL:
+	 [horizontal ll]
+	 	     (OP pic) (op post) [truncate to 255 chars, add link to thread if too long]
+		     	 {pic float top-left}
+	 vertical LL- 25dip margin - default GONE
+	 	Append _up to_ 3 reply views and display the vertical LL.
+		       single_reply.xml
+	 	       (reply pic) (reply post) [truncate to 255 chars, add link to thread if too long]	
+
+full thread view:
+same thing, except put the *comments* in a LV...wait, no. no listview. just show *all* comments. use the single-post above
+
+wrap is impossible. oh well. smaller margin then.
+http://stackoverflow.com/questions/2248759
+
+Sun Nov 28 00:39:57 EST 2010
+
+exceptions were getting swallowed, so...
+
+    try {
+      locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener)
+    } catch {
+      case e:Exception => Log.v(mApp.LOG_TAG, " CAUGHT EXCEPTION " + e + "string:'" + exToText(e)+"'")
+      case _ =>     Log.v(mApp.LOG_TAG, " CAUGHT NON EXCEPTION")
+    }
+
+
+locationManager.requestLocationUpdates, btw, has to be called from within the ui thread. lols. 
+
+Sun Nov 28 20:18:17 EST 2010
+
+(cd ~/dl/droid-fu; mvn install -DcopyTo=/home/jdb/squarechan/android/squarechan/lib/)
+
+
+
+Sun Dec  5 18:19:43 EST 2010
+
+this is what happens when we rotate
+
+
+
+
+
+
+
+
+
+I/ActivityManager( 1090): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=35}
+I/UsageStats( 1090): Unexpected resume of com.squarechan.android while already resumed in com.squarechan.android
+V/sq      ( 7650): mApp =  com.squarechan.android.SQApp@44770f80
+V/sq      ( 7650): startCheckingLocation(): force=false
+V/sq      ( 7650): startCheckingPosts(): called
+V/sq      ( 7650):  FetchThreadsTask.before() called on ctx:com.squarechan.android.SQApp@44770f80
+V/BetterAsyncTask( 7650): doInBackground called
+V/BetterAsyncTask( 7650): ready to get ctx
+V/BetterAsyncTask( 7650): got ctx
+V/BetterAsyncTask( 7650): calling dcib ctx:com.squarechan.android.SQApp@44770f80 pars:[Lcom.squarechan.android.PostParams;@448642c0
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() called
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() ...... on ctx:com.squarechan.android.SQApp@44770f80 with params com.squarechan.android.PostParams@44864160
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() building request uri:http://weneedafuckingnameforthiswebsite.barillari.org/latest-ajax?json=1&loc=42.37751%2C-71.116321&postids=
+I/WindowManager( 1090): Setting rotation to 0, animFlags=0
+I/ActivityManager( 1090): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=1 layout=34 uiMode=17 seq=36}
+I/UsageStats( 1090): Unexpected resume of com.squarechan.android while already resumed in com.squarechan.android
+V/sq      ( 7650): mApp =  com.squarechan.android.SQApp@44770f80
+V/sq      ( 7650): startCheckingLocation(): force=false
+V/sq      ( 7650): startCheckingPosts(): called
+V/sq      ( 7650):  FetchThreadsTask.before() called on ctx:com.squarechan.android.SQApp@44770f80
+V/BetterAsyncTask( 7650): doInBackground called
+V/BetterAsyncTask( 7650): ready to get ctx
+V/BetterAsyncTask( 7650): got ctx
+D/dalvikvm( 7650): GC_FOR_MALLOC freed 6337 objects / 376784 bytes in 50ms
+V/BetterAsyncTask( 7650): calling dcib ctx:com.squarechan.android.SQApp@44770f80 pars:[Lcom.squarechan.android.PostParams;@44871fb0
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() called
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() ...... on ctx:com.squarechan.android.SQApp@44770f80 with params com.squarechan.android.PostParams@44871e50
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() building request uri:http://weneedafuckingnameforthiswebsite.barillari.org/latest-ajax?json=1&loc=42.37751%2C-71.116321&postids=
+D/dalvikvm( 7650): GC_FOR_MALLOC freed 831 objects / 408200 bytes in 59ms
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() got 200 OK
+V/sq      ( 7650):  FTT.dcib: got meta {"current_zone":19,"current_time":1291591148000,"current_y":4693861.46456,"current_x":325767.391382}
+V/sq      ( 7650):  FTT.dcib: setting current_zone to 19
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() new time offset 15662
+V/sq      ( 7650):  decodePosts:6
+V/sq      ( 7650):  decodePosts:3
+V/sq      ( 7650):  decodePosts:1
+V/BetterAsyncTask( 7650): ...done calling dcib
+V/BetterAsyncTask( 7650): ...returning from dib
+V/sq      ( 7650):  FetchThreadsTask.after() plv.visibility:8
+V/sq      ( 7650):  FetchThreadsTask.after() making postListView visible!
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() got 200 OK
+V/sq      ( 7650):  FTT.dcib: got meta {"current_zone":19,"current_time":1291591149000,"current_y":4693861.46456,"current_x":325767.391382}
+V/sq      ( 7650):  FTT.dcib: setting current_zone to 19
+V/sq      ( 7650):  FetchThreadsTask.doCheckedInBackground() new time offset 14781
+V/sq      ( 7650):  decodePosts:6
+V/sq      ( 7650):  decodePosts:3
+V/sq      ( 7650):  decodePosts:1
+V/BetterAsyncTask( 7650): ...done calling dcib
+V/BetterAsyncTask( 7650): ...returning from dib
+V/sq      ( 7650):  FetchThreadsTask.after() plv.visibility:8
+V/sq      ( 7650):  FetchThreadsTask.after() making postListView visible!
+D/ImageCache( 7650): MEM cache hit for http://s3.amazonaws.com/squarechan-image-store/yhYTVj6A4D6Vj--byn5Az_PlQyo=-thumb.jpeg
+V/sq      ( 7650):  PLA.getView(): children.size(): 3 children:[com.squarechan.android.Post@4481d748, com.squarechan.android.Post@447f5a98, com.squarechan.android.Post@447f5b28]
+V/sq      ( 7650):  PLA.getView(): showing post com.squarechan.android.Post@4481d5a0
+V/sq      ( 7650):  PLA.getView(): showing child com.squarechan.android.Post@4481d748
+V/sq      ( 7650):  PLA.getView(): the imageurl is 'null' ==null:true
+V/sq      ( 7650):  using _nopic for content:say what?
+V/sq      ( 7650):  PLA.getView(): child content was Error
+V/sq      ( 7650):  PLA.getView(): setting child content to say what?
+V/sq      ( 7650):  PLA.getView(): child content now set to say what?
+V/sq      ( 7650):  getStatsText(): acz:19 puz:19
+V/sq      ( 7650): PostViewInfo.updateStats: id:29 txt:28 km away - 3 days ago
+V/sq      ( 7650):  PLA.getView(): showing child com.squarechan.android.Post@447f5a98
+V/sq      ( 7650):  PLA.getView(): the imageurl is 'null' ==null:true
+V/sq      ( 7650):  using _nopic for content:who are you?
+V/sq      ( 7650):  PLA.getView(): child content was Error
+V/sq      ( 7650):  PLA.getView(): setting child content to who are you?
+V/sq      ( 7650):  PLA.getView(): child content now set to who are you?
+V/sq      ( 7650):  getStatsText(): acz:19 puz:19
+V/sq      ( 7650): PostViewInfo.updateStats: id:30 txt:28 km away - 3 days ago
+V/sq      ( 7650):  PLA.getView(): showing child com.squarechan.android.Post@447f5b28
+D/dalvikvm( 7650): GC_FOR_MALLOC freed 3111 objects / 179208 bytes in 48ms
+V/sq      ( 7650):  PLA.getView(): the imageurl is 'http://s3.amazonaws.com/squarechan-image-store/Yoq9t8SBrUP1HWVAPnSFxULLHO8=-*.jpeg' ==null:false
+V/sq      ( 7650):  using withpic for content:happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog 
+V/sq      ( 7650):  PLA.getView(): child content was 
+V/sq      ( 7650):  PLA.getView(): setting child content to happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedg... [Truncated. Click see all to see full post.]
+V/sq      ( 7650):  PLA.getView(): child content now set to happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedg... [Truncated. Click see all to see full post.]
+D/ImageCache( 7650): MEM cache hit for http://s3.amazonaws.com/squarechan-image-store/Yoq9t8SBrUP1HWVAPnSFxULLHO8=-thumb.jpeg
+V/sq      ( 7650):  getStatsText(): acz:19 puz:19
+V/sq      ( 7650): PostViewInfo.updateStats: id:38 txt:892 meters away - 2 hr. ago
+V/sq      ( 7650):  PLA.getView(): rL vis was:8
+V/sq      ( 7650):  PLA.getView(): rL vis now:0
+V/sq      ( 7650):  PLA.getView(): note that visible is 0 and gone is 8
+V/sq      ( 7650):  getStatsText(): acz:19 puz:19
+V/sq      ( 7650): PostViewInfo.updateStats: id:25 txt:462 meters away - 2 hr. ago
+D/dalvikvm( 1090): GC_EXPLICIT freed 1111 objects / 48192 bytes in 125ms
+D/httpmon ( 6663): received intent for: virebo
+D/httpmon ( 6663): wake lock acquired for tag: org.jtb.httpmon.lock.virebo
+D/httpmon ( 6663): received intent for: virebo
+D/httpmon ( 6663): active network, type: mobile
+D/httpmon ( 6663): network state is connected
+D/dalvikvm( 6663): GC_FOR_MALLOC freed 3032 objects / 307184 bytes in 51ms
+I/global  ( 6663): Default buffer size used in BufferedInputStream constructor. It would be better to be explicit if an 8k buffer is required.
+D/AlarmManagerService( 1090): Kernel timezone updated to 300 minutes west of GMT
+D/dalvikvm( 1161): GC_FOR_MALLOC freed 13435 objects / 658544 bytes in 80ms
+I/httpmon ( 6663): monitor: virebo valid
+D/httpmon ( 6663): wake lock released for tag: org.jtb.httpmon.lock.virebo
+D/AlarmManagerService( 1090): Kernel timezone updated to 300 minutes west of GMT
+D/SystemClock( 1161): Setting time of day to sec=1291591184
+I/ActivityManager( 1090): Start proc com.android.alarmclock for broadcast com.android.alarmclock/com.android.deskclock.AlarmInitReceiver: pid=7672 uid=10017 gids={}
+I/ActivityThread( 7672): Publishing provider com.android.deskclock: com.android.deskclock.AlarmProvider
+I/ActivityManager( 1090): Start proc com.android.providers.calendar for broadcast com.android.providers.calendar/.TimeChangeReceiver: pid=7679 uid=10036 gids={3003}
+I/ActivityThread( 7679): Publishing provider com.android.calendar: com.android.providers.calendar.CalendarProvider2
+D/Calendar( 7679): missed alarms found: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+or, with extra markers:
+
+
+
+[...FLIP!...]
+
+D/dalvikvm( 7769): GC_FOR_MALLOC freed 10495 objects / 410536 bytes in 85ms
+D/dalvikvm( 7769): GC_FOR_MALLOC freed 19183 objects / 1015528 bytes in 88ms
+I/WindowManager( 1090): Setting rotation to 1, animFlags=0
+I/ActivityManager( 1090): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=37}
+V/sq      ( 7747):  lifecycle: onPause called
+I/UsageStats( 1090): Unexpected resume of com.squarechan.android while already resumed in com.squarechan.android
+V/sq      ( 7747): mApp =  com.squarechan.android.SQApp@44770f80
+D/dalvikvm( 1090): GC_EXTERNAL_ALLOC freed 33653 objects / 1575096 bytes in 213ms
+D/dalvikvm( 1090): GC_EXTERNAL_ALLOC freed 877 objects / 60656 bytes in 114ms
+V/sq      ( 7747):  lifecycle: onResume called
+V/sq      ( 7747): startCheckingLocation(): force=false
+V/sq      ( 7747): startCheckingPosts(): called
+V/sq      ( 7747):  FetchThreadsTask.before() called on ctx:com.squarechan.android.SQApp@44770f80
+V/BetterAsyncTask( 7747): doInBackground called
+V/BetterAsyncTask( 7747): ready to get ctx
+V/BetterAsyncTask( 7747): got ctx
+V/BetterAsyncTask( 7747): calling dcib ctx:com.squarechan.android.SQApp@44770f80 pars:[Lcom.squarechan.android.PostParams;@447c1940
+V/sq      ( 7747):  FetchThreadsTask.doCheckedInBackground() called
+V/sq      ( 7747):  FetchThreadsTask.doCheckedInBackground() ...... on ctx:com.squarechan.android.SQApp@44770f80 with params com.squarechan.android.PostParams@447c17e0
+V/sq      ( 7747):  FetchThreadsTask.doCheckedInBackground() building request uri:http://weneedafuckingnameforthiswebsite.barillari.org/latest-ajax?json=1&loc=42.37751%2C-71.116321&postids=
+D/dalvikvm( 7747): GC_FOR_MALLOC freed 5746 objects / 643112 bytes in 54ms
+V/sq      ( 7747):  FetchThreadsTask.doCheckedInBackground() got 200 OK
+V/sq      ( 7747):  FTT.dcib: got meta {"current_zone":19,"current_time":1291591571000,"current_y":4693861.46456,"current_x":325767.391382}
+V/sq      ( 7747):  FTT.dcib: setting current_zone to 19
+V/sq      ( 7747):  FetchThreadsTask.doCheckedInBackground() new time offset 14527
+V/sq      ( 7747):  decodePosts:6
+V/sq      ( 7747):  decodePosts:3
+V/sq      ( 7747):  decodePosts:1
+V/BetterAsyncTask( 7747): ...done calling dcib
+V/BetterAsyncTask( 7747): ...returning from dib
+V/sq      ( 7747):  FetchThreadsTask.after() plv.visibility:8
+V/sq      ( 7747):  FetchThreadsTask.after() making postListView visible!
+D/ImageCache( 7747): MEM cache hit for http://s3.amazonaws.com/squarechan-image-store/yhYTVj6A4D6Vj--byn5Az_PlQyo=-thumb.jpeg
+V/sq      ( 7747):  PLA.getView(): children.size(): 3 children:[com.squarechan.android.Post@447f40a8, com.squarechan.android.Post@447f4188, com.squarechan.android.Post@447f84c0]
+V/sq      ( 7747):  PLA.getView(): showing post com.squarechan.android.Post@447ee8f8
+V/sq      ( 7747):  PLA.getView(): showing child com.squarechan.android.Post@447f40a8
+V/sq      ( 7747):  PLA.getView(): the imageurl is 'null' ==null:true
+V/sq      ( 7747):  using _nopic for content:say what?
+V/sq      ( 7747):  PLA.getView(): child content was Error
+V/sq      ( 7747):  PLA.getView(): setting child content to say what?
+V/sq      ( 7747):  PLA.getView(): child content now set to say what?
+V/sq      ( 7747):  getStatsText(): acz:19 puz:19
+V/sq      ( 7747): PostViewInfo.updateStats: id:29 txt:28 km away - 3 days ago
+V/sq      ( 7747):  PLA.getView(): showing child com.squarechan.android.Post@447f4188
+V/sq      ( 7747):  PLA.getView(): the imageurl is 'null' ==null:true
+V/sq      ( 7747):  using _nopic for content:who are you?
+V/sq      ( 7747):  PLA.getView(): child content was Error
+V/sq      ( 7747):  PLA.getView(): setting child content to who are you?
+V/sq      ( 7747):  PLA.getView(): child content now set to who are you?
+V/sq      ( 7747):  getStatsText(): acz:19 puz:19
+V/sq      ( 7747): PostViewInfo.updateStats: id:30 txt:28 km away - 3 days ago
+V/sq      ( 7747):  PLA.getView(): showing child com.squarechan.android.Post@447f84c0
+V/sq      ( 7747):  PLA.getView(): the imageurl is 'http://s3.amazonaws.com/squarechan-image-store/Yoq9t8SBrUP1HWVAPnSFxULLHO8=-*.jpeg' ==null:false
+V/sq      ( 7747):  using withpic for content:happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog 
+V/sq      ( 7747):  PLA.getView(): child content was 
+V/sq      ( 7747):  PLA.getView(): setting child content to happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedg... [Truncated. Click see all to see full post.]
+V/sq      ( 7747):  PLA.getView(): child content now set to happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedgehog happy hedg... [Truncated. Click see all to see full post.]
+D/ImageCache( 7747): MEM cache hit for http://s3.amazonaws.com/squarechan-image-store/Yoq9t8SBrUP1HWVAPnSFxULLHO8=-thumb.jpeg
+V/sq      ( 7747):  getStatsText(): acz:19 puz:19
+V/sq      ( 7747): PostViewInfo.updateStats: id:38 txt:892 meters away - 3 hr. ago
+V/sq      ( 7747):  PLA.getView(): rL vis was:8
+V/sq      ( 7747):  PLA.getView(): rL vis now:0
+V/sq      ( 7747):  PLA.getView(): note that visible is 0 and gone is 8
+V/sq      ( 7747):  getStatsText(): acz:19 puz:19
+V/sq      ( 7747): PostViewInfo.updateStats: id:25 txt:462 meters away - 3 hr. ago
+D/dalvikvm( 1090): GC_EXPLICIT freed 5921 objects / 338128 bytes in 169ms
+I/dalvikvm( 7769): Jit: resizing JitTable from 4096 to 8192
+D/dalvikvm( 1090): GC_EXTERNAL_ALLOC freed 594 objects / 25288 bytes in 116ms
+D/dalvikvm( 7769): GC_FOR_MALLOC freed 68341 objects / 2862192 bytes in 76ms
+D/dalvikvm( 7769): GC_FOR_MALLOC freed 11656 objects / 394664 bytes in 64ms
+D/dalvikvm( 7769): GC_FOR_MALLOC freed 7966 objects / 368944 bytes in 61ms
+
+
+
+Sun Dec  5 18:47:34 EST 2010
+
+tell user to activate wifi!
+
+Wed Dec  8 21:04:51 EST 2010
+
+TODO:
+
+- figure out why we get spurious X new message markers
+
+- implement single thread using main screen with big back buttons and
+  a suppressed "full thread" button (& show full thread)
+
+(Single thread view. Click to return to list.)
+
+- implement reply (+photo taking, resizing)
+
+- retain thread on rotate. (don't reload, save!)
+
+
+Fri Dec 10 23:47:47 EST 2010
+
+actually figure out how to inflate the thread with minimum of code duplication in singlethreadreview
+
+reply activity.
+
+make sure rotation works
+
+Sat Dec 11 19:05:49 EST 2010
+
+to handle image
+http://developer.android.com/reference/android/graphics/BitmapFactory.Options.html#inSampleSize
+http://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation%28int%29
+
+later, consider allowing upload from sd. but for now, forget it --
+user can just use the web page for that.
+
+
+Mon Dec 13 01:34:54 EST 2010
+
+
+// if we want to handle bigger posts, we should use this. but the only reason to do that is really to handle copypasta; 
+// we're going to just shove the content through the headers for now.
+// https://reecon.wordpress.com/2010/04/25/uploading-files-to-http-server-using-post-android-sdk/
+
+HttpURLConnection connection = null;
+DataOutputStream outputStream = null;
+DataInputStream inputStream = null;
+
+String pathToOurFile = "/data/file_to_send.mp3";
+String urlServer = "192.168.1.1/handle_upload.php";
+String lineEnd = "\r\n";
+String twoHyphens = "--";
+String boundary =  "*****";
+
+int bytesRead, bytesAvailable, bufferSize;
+byte[] buffer;
+int maxBufferSize = 1*1024*1024;
+
+try
+{
+FileInputStream fileInputStream = new FileInputStream(new File(pathToOurFile) );
+
+URL url = new URL(urlServer);
+connection = (HttpURLConnection) url.openConnection();
+
+// Allow Inputs & Outputs
+connection.setDoInput(true);
+connection.setDoOutput(true);
+connection.setUseCaches(false);
+
+// Enable POST method
+connection.setRequestMethod("POST");
+
+connection.setRequestProperty("Connection", "Keep-Alive");
+connection.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
+
+outputStream = new DataOutputStream( connection.getOutputStream() );
+outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+outputStream.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + pathToOurFile +"\"" + lineEnd);
+outputStream.writeBytes(lineEnd);
+
+bytesAvailable = fileInputStream.available();
+bufferSize = Math.min(bytesAvailable, maxBufferSize);
+buffer = new byte[bufferSize];
+
+// Read file
+bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+while (bytesRead > 0)
+{
+outputStream.write(buffer, 0, bufferSize);
+bytesAvailable = fileInputStream.available();
+bufferSize = Math.min(bytesAvailable, maxBufferSize);
+bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+}
+
+outputStream.writeBytes(lineEnd);
+outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+// Responses from the server (code and message)
+serverResponseCode = conn.getResponseCode();
+serverResponseMessage = conn.getResponseMessage();
+
+fileInputStream.close();
+outputStream.flush();
+outputStream.close();
+}
+catch (Exception ex)
+{
+//Exception handling
+}
+
+Wed Dec 15 01:50:25 EST 2010
+
+sometims rebuilding droidfu creates test errors. a clean install often
+fixes these.
+
+Sun Dec 19 00:03:36 EST 2010
+
+maintain more>> state in mobile via #hash? or just open pics in new tabs?
+
+Sun Dec 19 01:27:44 EST 2010
+
+
+Tue Dec 21 17:40:08 EST 2010
+
+Npe in 95
+Slow loc
+Sort
+Rotaqte
+
+
+Tue Dec 21 20:52:23 EST 2010
+
+
+How should we design the sorting algo? I think we can't do a paged
+view like 4chan -- it wouldn't make sense (unless we embedded the
+location in the url---which we don't want to do b/c then ppl indexing
+or mailing links will keep the old loc.) (otoh today the board is not
+indexable except at the thread level.) 
+
+Goals: continuous new content: one of the attractions of 4chan: "Even
+       back then you could sit and hit refresh on your browser and
+       continue to see new content."
+
+We always want to show something new. Ideally, that's stuff that's
+close, failing that, it's stuff that's further away. If you keep
+saying "more", it will give you stuff that's older and further
+away. We need some sort of uniform score for this, ideally. (To
+capture the fact that if people are posting nonstop within 500m, you
+don't care about a post 5000m away, but if no-one's posting new stuff
+nearby, you do care about that. density matters: 
+
+should we measure dist from the op's loc or from any poster's loc? (it
+shouldn't matter too much, because only nearby people should even see
+the op's post)
+
+
+
+Wed Dec 22 13:31:31 EST 2010
+
+we use 
+Intent.FLAG_ACTIVITY_REORDER_TO_FRONT instead of android:launchMode="singleTask". here's why:
+
+http://developer.android.com/guide/topics/fundamentals.html
+			      Users must be able to leave a task and
+			      then come back to it later. For this
+			      reason, the two launch modes that mark
+			      activities as always initiating a task,
+			      "singleTask" and "singleInstance",
+			      should be used only when the activity
+			      has a MAIN and LAUNCHER filter. Imagine,
+			      for example, what could happen if the
+			      filter is missing: An intent launches a
+			      "singleTask" activity, initiating a new
+			      task, and the user spends some time
+			      working in that task. The user then
+			      presses the HOME key. The task is now
+			      ordered behind and obscured by the home
+			      screen. And, because it is not
+			      represented in the application launcher,
+			      the user has no way to return to it.
+
+Wed Dec 22 16:44:52 EST 2010
+
+here's a dead-simple method:
+
+default: pull in anything within 10 km. (future=> 100km, and do this:)
+
+to change:
+   - as posts come in (or every N hours), quantize them on 10km and 1km grids. 
+
+   - any grid point with > 100 (or some M) posts in the last K
+     (k=7?) days gets its default range for people who snap to that
+     grid pt set to the quantized pt. e.g., if you'd round to a 1km
+     grid pt with 230 posts, you'll default to 1km instead of
+     10m. (shld. be possible to adjust this.) 
+
+     -> priority goes to the smaller grid.
+
+     
+Thu Dec 23 01:37:26 EST 2010
+
+does a poster in an offsite thread pull it in? eg if he can see the
+thread and posts but I can't, does full thread now come onto my view,
+b/c i can see his post?
+
+
+Thu Dec 23 01:43:22 EST 2010
+
+if you change loc outside yr region, posts outside range stay until you reload! (bug or feature?)
+
+
+Sat Jan  1 21:16:43 EST 2011
+
+these are from google's ioschedule android project:
+android/squarechan/src/main/res/drawable-hdpi/btn_bg_pressed.9.png
+android/squarechan/src/main/res/drawable-hdpi/btn_bg_selected.9.png
+
+Sat Jan  1 21:47:00 EST 2011
+
+also these
+
+? drawable-hdpi/ic_title_post_alt.png
+? drawable-hdpi/ic_title_post_default.png
+? drawable-hdpi/ic_title_refresh_alt.png
+? drawable-hdpi/ic_title_refresh_default.png
+? drawable/ic_title_refresh.xml
+? drawable/ic_title_refresh_light.xml
+
+
+Sat Jan  8 20:13:31 EST 2011
+
+if the user deletes a post, the following rules apply:
+
+- if it's a reply, it just disappears
+
+- if it's an op and has no replies, it simply disappears
+  --> note that it can still receive replies if a user has the window open
+
+- if it's an op and has replies, it shows up as a _deleted post_
+  (special icon, text changed to "post deleted by user" in italics.) 
+
+
+
+Sat Jan  8 23:20:11 EST 2011
+
+For whatever reason, android was unable to resolve the apache commons
+base64. my guess was this was some sort of conflict with the actual
+version installed on android-8. so I repackaged the commons version,
+since it is not available in pre-8.
+
+
+Sun Jan  9 23:47:05 EST 2011
+
+dose not appear possible to install two versions simultaneously
+without renaming packages b/c R and TR are named based on the manifest
+package. can we override that? what does ant do?
+
+nm, it's generated by aapt, so I don't think we can override it. oh
+well. if we want to run simultaneous debug & non-debug pkgs, will have
+to rename the packages. (otherwise you can't import
+com.squarechan.android_debug.TR into a com.squarechan.android pkg)
+
+... => eventually, just use a combination of grep xargs sed -i to
+rewrite the pkg names when needed. (and possibly add a trigger to hg
+to prevent us from committing those)
+
+Mon Jan 10 00:32:40 EST 2011
+
+for future ref
+
+hg push --ssh "/path/to/ssh -o ConnectTimeout=10"
+
+Mon Jan 10 10:08:27 EST 2011
+
+debugging mysql root: psz2WTxPNv
+
+Mon Jan 10 10:34:33 EST 2011
+
+sudo tshark -d tcp.port==80,http -f 'tcp port 80' -x 
+
+
+Mon Jan 10 14:00:05 EST 2011
+
+Mon Jan 10 14:08:53 EST 2011
+
+ok, deletion is basically done. now to adjust radius/blur.
+
+on the web client, expand/collapse special options box
+
+on the mobile web client, have a "prefs" button at the bottom of the main page that goes to a prefs page to set those cookies
+
+on the android client, set the blur & radius seperately (or maybe
+later). blur is a preference, radius is set by a button on the
+topbar. if the user changes the radius, wipe *all* current posts
+(e.g., don't send the current posts list back to the server.)
+
+now, what happens when the user moves from a high-density area to a
+low-density area where there's no-one---but there would be someone if
+the radius were increased?
+
+solution: if the user submits a request for a lower-than-default
+radius that would come back empty, re-run it with a larger radius,
+send those results, and tell them the radius has been enlarged to the
+next largest size that actually has some results. 
+
+
+actually, forget that---just do what google maps does. ('no posts at this zoom level---try zooming out!')
+v 3.0: show a list like this: 	     100m   	 20 posts in last 3 days
+       	      	   		     250m	 100 " " " " "
+				     500m	 2300 ...
+
+
+so how do we resolve the user-moved issue? how about this: if the new
+fix is more than radius from the old fix AND there are no hits there,
+enlarge to default IF we'll get more hits, otherwise leave the same. 
+
+radius must be > blur
+
+-> no posts at this zoom level. radius enlarged to X to show nearest posts. 
+vs.
+-> no posts in this area.
+
+add radius to top status bar on web (100 km of 31.29,-19.190 [change])
+
+options when moving:
+	- just change. if there's nothing there, that's the user's problem
+
+	- change but let user know if a higher zoom level would have more posts. click to get it.
+
+	- take the user to the higher zoom level b/c there's no pt. in
+          looking at an empty page (?). [maybe they don't want to zoom
+          out: now, when they post, they'll see just the
+          zillion-meters-away posts, which might overwhelm theirs]. 
+
+	  --> I like the middle one. 
+
+on android, same deal. if we enter a no-posts area, show the zoom
+level needed to get some posts. (new get-posts-ajax param: if no
+posts, zoom level needed to get some.)
+
+Mon Jan 10 15:47:59 EST 2011
+
+so the exact things I need to do are...
+new cookie: search_radius
+on web client:
+if unset, show the default (defined on the python side)
+add it to the topline (x,y)
+add menu to adjust it to set-loc box
+bury set-blur box in a tiny |> settings initially-hidden box
+
+Mon Jan 10 16:56:22 EST 2011
+
+
+...augment the "be the first" box with a "reset to this radius!" link
+that changes the radius and reloads the posts.
+
+what happens when you change the radius? several cases:
+     - location unknown								-> nothing, wait for loc to be accepted.
+     - location unknown but new loc ready for accept				-> ditto
+     - location unknown but picklist open & new loc ready for accept		-> ditto
+     - location known and unchanged  	    	    	      			-> Add "accept new radius" button
+     - location known and changed and ready for accept				-> Hide accept new raidus if visible, show "accept new loc & radius"
+     - location known and changed and picklist open and ready for accept        -> ditto
+
+simpler: create a new "options" dialog. eliminate the clutter from the search dialog. (but the two are integral...someday, will want to show radius on map)
+
+ok, state diagram to get to the above states
+
+(assuming loc _known_; unknown loc goes nowhere.)
+radius unchanged and new loc picked => accept new loc appears
+loc unchangd and new radius picked => accept new radius
+
+     - location known and unchanged  	    	    	      			-> Add "accept new radius" button
+     - location known and changed and ready for accept				-> Hide accept new raidus if visible, show "accept new loc & radius"
+     - location known and changed and picklist open and ready for accept        -> ditto
+
+AAAAAGH. Let's just change this to "Accept --->" and screw all this nonsense. now the state diagram is:
+
+if loc changed:
+   always show accept
+
+if radius changed...
+
+   if new, show accept
+   if old, check loc changed (LOC != cookie)
+      	   if unchanged, hide accept
+	   if changed, show accept
+   
+
+Tue Jan 11 21:15:07 EST 2011
+
+<h3>When I use a larger search range (e.g., hundreds of kilometers),
+why is the range of posts that I see apparently truncated to the east and west?</h3>
+
+<p>
+Squarechan uses
+the <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Universal_Transverse_Mercator_coordinate_system">Universal
+Transverse Mercator system</a> internally. Consequently.
+</p>
+<p>
+
+That said, Squarechan isn't really intended to be used at long range.
+
+</p>
+
+
+Wed Jan 12 16:45:57 EST 2011
+
+OMG we can avoid this issue:
+
+fix crash when display rotated while select-range is open. happens
+   like this:
+
+
+I/WindowManager( 1086): Setting rotation to 1, animFlags=0
+I/ActivityManager( 1086): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=164}
+V/sq      (15157): SQAPP: onConfigurationChanged({ scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=2 layout=34 uiMode=17 seq=164})
+V/sq      (15157): onSaveInstanceState called! bundle=Bundle[{android:viewHierarchyState=Bundle[{android:views=android.util.SparseArray@4476d090}]}]
+I/UsageStats( 1086): Unexpected resume of com.squarechan.android while already resumed in com.squarechan.android
+V/sq      (15157): onSaveInstanceState: bundling state={"posts":[{"id":1,"latest_update":1294761026000,"created":1294680070000,"hidden":8,"deletable":false,"children":[{"id":10,"latest_update":1294757295000,"created":1294757295000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0},{"id":11,"latest_update":1294757973000,"created":1294757973000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0},{"id":12,"latest_update":1294761026000,"created":1294761026000,"hidden":0,"deletable":false,"children":[],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0}],"rounding":100,"gridx":0,"deleted":true,"gridy":0,"utm_zone":0}],"meta":{"current_zone":18,"current_time":1294788066739,"current_y":4513933,"current_x":588290}}
+V/sq      (15157): TLA lifecycle: onPause called
+V/sq      (15157): stopCheckingLocation(): called
+V/sq      (15157): eraseCurrentListener(): eraseCurrent called on:com.squarechan.android.LocationFindingTrait$$anon$3@447d1ac8
+V/sq      (15157): eraseCurrentListener(): eraseCurrent erasing...
+V/sq      (15157): TLA lifecycle: setRadiusDialog=android.app.AlertDialog@447f5ff8
+V/sq      (15157): TLA lifecycle: closing set-radius dialog
+V/sq      (15157): TLA lifecycle: onStop called
+V/sq      (15157): TLA lifecycle: onDestroy called
+E/WindowManager(15157): Activity com.squarechan.android.ThreadListActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@447a9228 that was originally added here
+E/WindowManager(15157): android.view.WindowLeaked: Activity com.squarechan.android.ThreadListActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@447a9228 that was originally added here
+E/WindowManager(15157): 	at android.view.ViewRoot.<init>(ViewRoot.java:247)
+E/WindowManager(15157): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:148)
+E/WindowManager(15157): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:91)
+E/WindowManager(15157): 	at android.view.Window$LocalWindowManager.addView(Window.java:424)
+E/WindowManager(15157): 	at android.app.Dialog.show(Dialog.java:241)
+E/WindowManager(15157): 	at android.app.AlertDialog$Builder.show(AlertDialog.java:802)
+E/WindowManager(15157): 	at android.widget.Spinner.performClick(Spinner.java:257)
+E/WindowManager(15157): 	at android.view.View$PerformClick.run(View.java:8816)
+E/WindowManager(15157): 	at android.os.Handler.handleCallback(Handler.java:587)
+E/WindowManager(15157): 	at android.os.Handler.dispatchMessage(Handler.java:92)
+E/WindowManager(15157): 	at android.os.Looper.loop(Looper.java:123)
+E/WindowManager(15157): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/WindowManager(15157): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/WindowManager(15157): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/WindowManager(15157): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:858)
+E/WindowManager(15157): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+E/WindowManager(15157): 	at dalvik.system.NativeStart.main(Native Method)
+V/sq      (15157): TLA lifecycle: onCreate called; app =  com.squarechan.android.SQApp@447771c0
+V/sq      (15157): plv =  com.squarechan.android.SQListView@4482d230
+V/sq      (15157):  decodeJSON: got meta {"current_zone":18,"current_time":1294788066739,"current_y":4513933,"current_x":588290}
+V/sq      (15157):  decodeJSON: setting current_zone to 18
+V/sq      (15157):  decodeJSON new time offset 15574
+V/sq      (15157):  inflatePosts:1
+V/sq      (15157):  inflatePosts:3
+V/sq      (15157): TLA lifecycle: onStart called
+V/sq      (15157):  lifecycle: onResume called
+V/sq      (15157): startCheckingLocation(): force=false
+V/sq      (15157): startCheckingPosts(): called
+V/sq      (15157):  FTT.before() called on ctx:com.squarechan.android.ThreadListActivity@44776be8
+D/AndroidRuntime(15157): Shutting down VM
+W/dalvikvm(15157): threadid=1: thread exiting with uncaught exception (group=0x4001d7e0)
+E/AndroidRuntime(15157): FATAL EXCEPTION: main
+E/AndroidRuntime(15157): java.lang.IllegalArgumentException: View not attached to window manager
+E/AndroidRuntime(15157): 	at android.view.WindowManagerImpl.findViewLocked(WindowManagerImpl.java:355)
+E/AndroidRuntime(15157): 	at android.view.WindowManagerImpl.removeView(WindowManagerImpl.java:200)
+E/AndroidRuntime(15157): 	at android.view.Window$LocalWindowManager.removeView(Window.java:432)
+E/AndroidRuntime(15157): 	at android.app.Dialog.dismissDialog(Dialog.java:278)
+E/AndroidRuntime(15157): 	at android.app.Dialog.access$000(Dialog.java:71)
+E/AndroidRuntime(15157): 	at android.app.Dialog$1.run(Dialog.java:111)
+E/AndroidRuntime(15157): 	at android.app.Dialog.dismiss(Dialog.java:268)
+E/AndroidRuntime(15157): 	at android.widget.Spinner.onDetachedFromWindow(Spinner.java:86)
+E/AndroidRuntime(15157): 	at android.view.View.dispatchDetachedFromWindow(View.java:6033)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1158)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewGroup.dispatchDetachedFromWindow(ViewGroup.java:1156)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.dispatchDetachedFromWindow(ViewRoot.java:1630)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.doDie(ViewRoot.java:2671)
+E/AndroidRuntime(15157): 	at android.view.ViewRoot.handleMessage(ViewRoot.java:1948)
+E/AndroidRuntime(15157): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+E/AndroidRuntime(15157): 	at android.os.Looper.loop(Looper.java:123)
+E/AndroidRuntime(15157): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/AndroidRuntime(15157): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/AndroidRuntime(15157): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/AndroidRuntime(15157): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:858)
+E/AndroidRuntime(15157): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+E/AndroidRuntime(15157): 	at dalvik.system.NativeStart.main(Native Method)
+W/ActivityManager( 1086):   Force finishing activity com.squarechan.android/.ThreadListActivity
+D/libgps  ( 1086): GpsInterface_stop()
+V/BetterAsyncTask(15157): doInBackground called
+V/BetterAsyncTask(15157): ready to get ctx
+V/BetterAsyncTask(15157): got ctx
+V/BetterAsyncTask(15157): calling dcib ctx:com.squarechan.android.ThreadListActivity@44776be8 pars:[Lcom.squarechan.android.PostParams;@4482ba70
+V/sq      (15157):  FTT.doCheckedInBackground() called
+V/sq      (15157):  FTT.doCheckedInBackground() ...... on ctx:com.squarechan.android.ThreadListActivity@44776be8 with params com.squarechan.android.PostParams@447eddb0
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground() building request uri:http://dev.squarechan.com/latest-ajax?json=1&loc=40.771639%2C-73.953797&postids=1&radius=1000
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground(): 1 executing request...
+E/libgps  ( 1086): recv_command_status() : fix returned error code 9
+E/libgps  ( 1086): numsats histogram: 8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+E/libgps  ( 1086): sats histogram: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+D/libgps  ( 1086): status_cb: GPS_STATUS_SESSION_END (2)
+D/LocationMasfClient( 1086): getNetworkLocation(): Returning cache location with accuracy 649.0
+D/libgps  ( 1086): GpsInterface_inject_location( 40.771639, -73.953797, 649.000 )
+D/dalvikvm(15157): GC_FOR_MALLOC freed 3472 objects / 485272 bytes in 114ms
+W/ActivityManager( 1086): Activity pause timeout for HistoryRecord{44b9e838 com.squarechan.android/.ThreadListActivity}
+D/dalvikvm( 1086): GC_EXPLICIT freed 3544 objects / 165832 bytes in 209ms
+I/WindowManager( 1086): Setting rotation to 0, animFlags=1
+I/ActivityManager( 1086): Config changed: { scale=1.0 imsi=310/4 loc=en_US touch=3 keys=2/1/2 nav=2/2 orien=1 layout=34 uiMode=17 seq=165}
+D/dalvikvm( 1086): GC_EXPLICIT freed 1260 objects / 54192 bytes in 127ms
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground(): response returned. checking status code
+V/sq      (15157):  FetchThreadsTask.doCheckedInBackground() got 200 OK
+V/sq      (15157):  decodeJSON: got meta {"current_zone":18,"current_time":1294788068000,"current_y":4513933.76889,"current_x":588290.984718}
+V/sq      (15157):  decodeJSON: setting current_zone to 18
+V/sq      (15157):  decodeJSON new time offset 18524
+V/sq      (15157):  inflatePosts:1
+V/sq      (15157):  inflatePosts:3
+V/BetterAsyncTask(15157): ...done calling dcib
+V/BetterAsyncTask(15157): ...returning from dib
+
+
+
+my guess is that onDetachedFromWindow of the Spinner isn't being
+   called, but I have more pressing issues atm.
+
+
+....by just opening up the popup dialog ourselves rather than wrapping it in another dialog.
+
+
+Thu Jan 13 19:15:55 EST 2011
+
+Hm, that's strange. I just built a new version of my app for testing
+and no sooner did I open it but...
+
+E/AndroidRuntime(15924): FATAL EXCEPTION: main
+E/AndroidRuntime(15924): java.lang.NoSuchMethodError: a
+E/AndroidRuntime(15924): 	at com.squarechan.android.ThreadListActivity.onResume(SourceFile:561)
+E/AndroidRuntime(15924): 	at android.app.Instrumentation.callActivityOnResume(Instrumentation.java:1149)
+E/AndroidRuntime(15924): 	at android.app.Activity.performResume(Activity.java:3823)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread.performResumeActivity(ActivityThread.java:3118)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread.handleResumeActivity(ActivityThread.java:3143)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2684)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread.access$2300(ActivityThread.java:125)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2033)
+E/AndroidRuntime(15924): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+E/AndroidRuntime(15924): 	at android.os.Looper.loop(Looper.java:123)
+E/AndroidRuntime(15924): 	at android.app.ActivityThread.main(ActivityThread.java:4627)
+E/AndroidRuntime(15924): 	at java.lang.reflect.Method.invokeNative(Native Method)
+E/AndroidRuntime(15924): 	at java.lang.reflect.Method.invoke(Method.java:521)
+E/AndroidRuntime(15924): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:858)
+E/AndroidRuntime(15924): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+E/AndroidRuntime(15924): 	at dalvik.system.NativeStart.main(Native Method)
+
+The offending line was a call to a function called
+startCheckingPosts. No problem, I'll just make sure that Proguard
+doesn't optimize it away. I'll add the following line to my proguard
+configuration...
+
+	       -keep class * {  void startCheckingPosts(...); }
+
+But wait! Now, Proguard craps out with the following:
+
+java.lang.IllegalArgumentException: Invalid instruction offset [264] in code fragment at level 0
+	at proguard.classfile.editor.CodeAttributeComposer.remapInstructionOffset(CodeAttributeComposer.java:669)
+	at proguard.classfile.editor.CodeAttributeComposer.visitExceptionInfo(CodeAttributeComposer.java:486)
+	at proguard.classfile.editor.CodeAttributeComposer.appendException(CodeAttributeComposer.java:229)
+	at proguard.classfile.editor.ExceptionInfoAdder.visitExceptionInfo(ExceptionInfoAdder.java:65)
+	at proguard.classfile.attribute.CodeAttribute.exceptionsAccept(CodeAttribute.java:153)
+	at proguard.optimize.peephole.MethodInliner.copyCode(MethodInliner.java:309)
+	at proguard.optimize.peephole.MethodInliner.visitCodeAttribute(MethodInliner.java:159)
+	at proguard.classfile.attribute.CodeAttribute.accept(CodeAttribute.java:101)
+	at proguard.classfile.ProgramMethod.attributesAccept(ProgramMethod.java:79)
+	at proguard.classfile.attribute.visitor.AllAttributeVisitor.visitProgramMember(AllAttributeVisitor.java:95)
+	at proguard.classfile.util.SimplifiedVisitor.visitProgramMethod(SimplifiedVisitor.java:91)
+	at proguard.classfile.ProgramMethod.accept(ProgramMethod.java:71)
+	at proguard.classfile.ProgramClass.methodsAccept(ProgramClass.java:439)
+	at proguard.classfile.visitor.AllMethodVisitor.visitProgramClass(AllMethodVisitor.java:47)
+	at proguard.classfile.ProgramClass.accept(ProgramClass.java:281)
+	at proguard.classfile.ClassPool.classesAccept(ClassPool.java:114)
+	at proguard.optimize.Optimizer.execute(Optimizer.java:560)
+	at proguard.ProGuard.optimize(ProGuard.java:325)
+	at proguard.ProGuard.execute(ProGuard.java:114)
+	at Squarechan$MainProject$$anonfun$proguardTask$1.apply(Squarechan.scala:75)
+	at Squarechan$MainProject$$anonfun$proguardTask$1.apply(Squarechan.scala:43)
+	at sbt.TaskManager$Task.invoke(TaskManager.scala:62)
+	at sbt.impl.RunTask.doRun$1(RunTask.scala:77)
+	at sbt.impl.RunTask.runTask(RunTask.scala:85)
+	at sbt.impl.RunTask.sbt$impl$RunTask$$runIfNotRoot(RunTask.scala:60)
+	at sbt.impl.RunTask$$anonfun$runTasksExceptRoot$2.apply(RunTask.scala:48)
+	at sbt.impl.RunTask$$anonfun$runTasksExceptRoot$2.apply(RunTask.scala:48)
+	at sbt.Distributor$Run$Worker$$anonfun$2.apply(ParallelRunner.scala:131)
+	at sbt.Distributor$Run$Worker$$anonfun$2.apply(ParallelRunner.scala:131)
+	at sbt.Control$.trapUnit(Control.scala:19)
+	at sbt.Distributor$Run$Worker.run(ParallelRunner.scala:131)
+
+Strange. Maybe it's the version of Proguard? I'm running 4.4, the
+latest stable is 4.5, and the latest beta is
+4.6.something. Unfortunately, I'm not actually sure _how_ Proguard is
+being executed. Java apparently has <span STYLE="text-decoration:
+line-through;">.>a</span> several means for automatically resolving
+dependencies, and it looks like scala-build-tool uses <a
+href="https://code.google.com/p/simple-build-tool/wiki/LibraryManagement#Automatic_Dependency_Management">a bunch of them</a>.
+
+After a bunch of grepping that doesn't bear getting in to*, I found
+the line that specified the version of proguard to use in
+<tt>android-plugin/project/build/Project.scala</tt>. (I'm using <a
+href="https://github.com/jberkel/android-plugin">this</a> Android
+plugin for sbt.)
+
+<pre>
+	val proguard = "net.sf.proguard" % "proguard" % "4.4"
+</pre>
+
+I bumped it to 4.6 and ran sbt publish-local, as explained in the documentation.
+
+...except that that didn't work---the compiler couldn't resolve proguard:
+
+<pre>
+[info] Compiling main sources...
+[error] /home/dl/android-plugin/src/main/scala/AndroidProject.scala:1: not found: value proguard
+[error] import proguard.{Configuration=>ProGuardConfiguration, ProGuard, ConfigurationParser}
+[error]        ^
+[error] one error found
+</pre>
+
+...and <tt>sbt update</tt> produced a page of error messages
+indicating that it couldn't find proguard 4.6 isn't in its default
+repositories. Nor is 4.5 in them. So I just commented out that line
+and dropped proguard 4.5's <tt>proguard.jar</tt> in <tt>android-plugin/lib</tt>.
+
+I went back to my app's repository and ran 'sbt clean-plugins'.
+
+And...
+
+[info] Updating plugins...
+[info] downloading http://repo1.maven.org/maven2/net/sf/proguard/proguard/4.4/proguard-4.4.jar ...
+
+Oops, it must have been cached. Let's wipe that out:
+
+(cd ~/.ivy2/; find .|grep  sbt-android|xargs rm -rf)
+
+Now it can't find proguard:
+
+[error] /home/jdb/squarechan/android/squarechan/project/plugins/src_managed/sbt-android-plugin-0.5.0/AndroidProject.scala:1: not found: value proguard
+[error] import proguard.{Configuration=>ProGuardConfiguration, ProGuard, ConfigurationParser}
+
+...let's drop the same jar from above in my project's lib folder:
+
+...still can't find it. 
+
+(At this point, I flailed around quite a bit more, but decided that
+before I wasted more time trying to do something manifestly simple,
+like use a jar on disk instead of downloading it, I'd try running the
+new version <i>manually</i> to see if it fixed the problem.)
+
+Lo and behold, proguard 4.5.1 didn't fix it.
+
+Error: Invalid instruction offset [267] in code fragment at level 0
+
+However, 4.6 beta2 <u>did</u> shrink it. So back to sbt. 
+
+I suspect some problems came about because my project sometimes
+fetched the sbt plugin from a remote repository. So let's start by
+making that impossible. First, I changed <tt>android-plugin/project/build.properties</tt> to set a new project
+version: <tt>project.version=7.7.7</tt>. I ran <tt>sbt publish-local</tt> and verified that 
+/home/jdb/.ivy2/local/org.scala-tools.sbt/sbt-android-plugin/7.7.7/jars/sbt-android-plugin.jar
+now contains 
+
+Then, in <tt>android-plugin/project/build/Project.scala</tt>, I changed
+<pre>val proguard = "net.sf.proguard" % "proguard" % "4.4"</pre>
+to
+<pre>val proguard = "proguard" % "proguard" % "4.6" from "file:///home/jdb/dl/proguard4.6beta2/lib/proguard.jar"</pre>
+
+Then I ran 
+<pre>sbt clean-cache clean-lib clean-plugins clean</pre>
+followed by
+<pre>sbt publish-local</pre>
+
+I then edited <tt>myproject/project/plugins/Plugins.scala</tt>
+and changed the <tt>sbt-android-plugin</tt> dependency to:
+<pre>
+  val android = "org.scala-tools.sbt" % "sbt-android-plugin" % "7.7.7" from "file:///home/jdb/.ivy2/local/org.scala-tools.sbt/sbt-android-plugin/7.7.7/jars/sbt-android-plugin.jar"
+</pre>
+
+...and copied the proguard 4.6b2 jar to the
+<tt>/home/jdb/.ivy2/local/proguard/proguard/4.6/jars/</tt>, making the
+necessary directories along the way.
+
+I re-ran <tt>sbt clean-cache clean-lib clean-plugins clean</tt>, then built it. And it worked!
+
+but...
+
+Now it's huge compared to the old packages!
+
+OK, now for the hard way...I'll bisect my way through the history and figure out wtf happened.
+
+
+
+
+* OK, just one. I found the following in <tt>android-plugin/project/build/Project.scala</tt>
+<pre>  val t_repo = "t_repo" at "http://tristanhunt.com:8081/content/groups/public/"</pre>
+
+What on earth <b>is</b> that? I can't find any reference to t_repo
+elsewhere in the code. 
+
+Whatever the case is, it 
+
+[info] downloading http://tristanhunt.com:8081/content/groups/public/com/tristanhunt/knockoff_2.7.7/0.6.1-9/knockoff_2.7.7-0.6.1-9.jar ...
+[info] 	[SUCCESSFUL ] com.tristanhunt#knockoff_2.7.7;0.6.1-9!knockoff_2.7.7.jar (9595ms)
+
+Thu Jan 13 22:44:24 EST 2011
+
+nm im an idiot i was running in dbg mode.
+
+Fri Jan 14 02:29:05 EST 2011
+
+nm, no, I was right, 4.6b2 doesn't do anywhere near as well on compression. wtf. 
+
+Fri Jan 14 10:41:16 EST 2011
+
+ARRGH. OK, well this works:
+
+
+	       -keepclasseswithmembers class ** { *** startCheckingPostsInner(...); *** startCheckingPosts(...); }
+
+although this doesn't:
+	       -keep class * {  void startCheckingPosts(...); }
+
+You know what? I don't care. I just don't. 
+
+Fri Jan 14 21:57:49 EST 2011
+
+Major updates since 1.2: Support for deleting posts and changing the search radius.
+Since 1.3: Better error reporting.
+Since 1.3.1: Fix for force-quit on Nexus S.
+
+Fri Jan 14 22:54:16 EST 2011
+
+are we leaking locationlisteners in NewPostAct? hmm...seems that
+exiting through TlistAct closes the listener...coincidence?

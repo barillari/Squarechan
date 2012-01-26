@@ -1,0 +1,39 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% if not posts %}
+          {% if nextdistance %}
+      	    <div id="nopostszoom">
+      	      No posts within {{radius_nice}}. Be the first to post here! <br/>
+      	    Or you can <span class="u clickzoom">click to show posts within the nearest {{nextdistance}}.</span>
+      	    </div>      
+           {% else %}
+      	    <div id="noposts">No posts in your area. Be the first!</div>
+           {% endif %}
+      <div id="loadingposts">
+	<img src="/static/loading.gif" alt="loading throbber" style="vertical-align:middle;padding:10px;"> 
+        Loading posts...
+      </div>
+{% endif %}
+{% for post in posts %}
+    {% include "postbox.html" %}
+{% endfor %}

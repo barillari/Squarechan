@@ -1,0 +1,47 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>{{sitename}} [beta]: {{tagline}}</title>
+    <meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+    {% include 'loadscripts.html' %}
+    <style type="text/css">body {overflow-x:hidden;}</style>
+  </head>
+  <body>
+    <div id="maindiv-mobile">
+      {% block maindiv %}{% endblock %}
+    </div>
+    
+    <div id="mobile-footer">
+      &copy; 2010. <a href="/static/copyright-details.html">details</a> 
+      | <a href="/static/terms.html">terms</a>/<a href="/static/privacy.html">privacy</a>
+      <br> <a href="/goto-non-mobile?path={{requestpath}}">switch to regular site</a> | <a href="/static/android.html">try our Android app</a>
+      {% include 'comment.html' %}
+    </div>
+    
+  </body>
+</html>
+

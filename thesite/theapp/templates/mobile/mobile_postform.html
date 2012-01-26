@@ -1,0 +1,63 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% load post_extras %}
+{% comment %} style="vertical-align:bottom;text-align:right;">{% endcomment %}
+<form action="/conventional-post" method="post" class="newpostform mobile-postform" id="postform_{{post.id|default:"-1"}}" accept-charset="utf-8" enctype="multipart/form-data">
+
+<fieldset id="mobile_newpost_fieldset">
+<legend style="font-weight:bold;" for="mobile_newpost_fieldset">{%if onepostmode%}Reply{%else%}New post{%endif%}</legend>
+        <textarea class="mobile_content_textarea" name="content" rows="2" id="id_content_{{post.id|default:"-1"}}"></textarea> {%comment%}{{postform.content|text_field_value}}{%endcomment%}
+	Picture {%if onepostmode %}<i>(optional)</i>{%else%}<i>(required)</i>{%endif%}:
+        <input type="file" accept="image/jpeg,image/jpg,image/png,image/gif" id="upload_input_{{post.id|default:"-1"}}" name="picture_file" 
+               class="upload_input" />
+	<div>  
+        <span style="i">work-safe, please.</span><br>
+          <input type="submit" name="post" value="post">
+	</div>
+
+
+  <div class="adjust_or_conceal" id="adjust_or_conceal_{{post.id|default:"-1"}}">
+    Posts include your location. You can <a href="/?force_change=1">adjust or conceal your location</a></span> before posting.
+      {% if not post.id %}
+      <div id="imagerequired">
+	This post starts a new thread. Please attach an image.
+      </div>
+      {% endif %}
+  </div>
+<div id="post_successful_{{post.id|default:"-1"}}" style="display:none;font-weight:bold;background-color:#feff9f;">Post successful!</div>
+</fieldset>
+
+
+    {% csrf_token %}
+    {% if onepostmode %}
+       <input type="hidden" name="in_thread_view" value="1">
+    {% endif %}
+
+  <input type="hidden" name="loc" value="{{loc}}">
+  <input type="hidden" name="is_mobile" value="1">
+{% if onepostmode %}
+  <input type="hidden" id="mobile_reply_to" name="reply_to" value="{{posts.0.id}}">
+{% endif %}
+  <input type="hidden" id="antidupetoken_{{post.id|default:"-1"}}" name="antidupetoken" value="">
+</form>
+

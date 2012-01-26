@@ -1,0 +1,656 @@
+/*
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+body {
+    background-color:#e5e5ff;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+
+h2, h1 {
+    text-align:center;
+
+}
+
+
+#mobile-mapinstructions {
+    font-size: 0.8em;
+    background-color:#feff9f;
+    font-style:italic;
+    text-align:center;
+    width:100%;
+    max-width:100%;
+    display:none;
+
+}
+
+#maindiv-mobile { 
+    width:100%;
+    max-width:100%;
+
+}
+
+#maindiv {
+    width:700px;
+    margin: 0 auto;
+}
+
+.bbox {
+    background-color:#d9d9ff; padding:5px;
+}
+
+#currentlocdiv {
+    font-size:9pt;
+}
+
+#toppostformdiv  {
+    margin-bottom: 10px; 
+}
+
+.postbox  {
+    margin-bottom: 20px; 
+}
+
+
+div.clearer {clear: both; line-height: 0; height: 0;}
+
+div.postinfo {float:right; background-color:#ccccff; text-align:center;font-size:9pt; color:#444;margin-top:-5px;margin-right:-5px; padding:3px; margin-bottom:5px;}
+
+#noposts {margin-top:10px;text-align:center; background-color:#feff9d; font-weight:bold; display:block;}
+#loadingposts {margin-top:10px;text-align:center; background-color:#a5c6a5; font-weight:bold; display:none; padding:5px;}
+
+u {color: #0000ff;}
+
+.closebox {
+    float:right; background-color:#ccccff; text-align:right; font-size:9pt;  color:#0000ff;
+}
+
+#changelocbox {
+    background-color:#bfbfff;
+    padding: 5px;
+    margin-top: 10px;
+    border: 1px solid #000077;
+}
+
+#changecontrolsp {
+    padding:10px;
+}
+
+#new_coords {margin-top:15px;}
+
+.infobox {padding:5px; margin:5px; border: 1px solid #333; background-color:#feff8a;}
+
+#set_loc_infobox {margin: 15px; padding: 15px; border: 1px solid #333; background-color:#feff8a; font-size:1.2em;}
+
+
+.adjust_or_conceal {padding:5px;font-size:9pt;font-style:italic;text-align:center;display:none;background-color:#feff8a;}
+
+.initiallyclosed { display: none; }
+
+.ninept {font-size:9pt;}
+
+#grid_div {margin-top:15px;}
+
+.content_full {display:none;}
+
+/* this trick thanks to 
+   http://stackoverflow.com/questions/210643/in-javascript-can-i-make-a-click-event-fire-programmatically-for-a-file-input-e/3030174#3030174
+*/
+.hiddenupload {font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px; left: -20px;}
+#file_cancel_img {vertical-align:middle;}
+.hiddenuploadwrapper {display: block; width: 120px; height: 20px; overflow: hidden;}
+
+
+
+
+
+
+
+
+/*****************************************
+
+EVERYTHING BELOW THIS LINE TO THE CORRESPONDING FOOTER BELOW IS FROM
+lightbox.css SEE THE LIGHTBOX LICENSE
+
+********************************************/
+
+
+#lightbox{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	z-index: 100;
+	text-align: center;
+	line-height: 0;
+	}
+
+#lightbox a img{ border: none; }
+
+#outerImageContainer{
+	position: relative;
+	background-color: #fff;
+	width: 250px;
+	height: 250px;
+	margin: 0 auto;
+	}
+
+#imageContainer{
+	padding: 10px;
+	}
+
+#loading{
+	position: absolute;
+	top: 40%;
+	left: 0%;
+	height: 25%;
+	width: 100%;
+	text-align: center;
+	line-height: 0;
+	}
+#hoverNav{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+	}
+#imageContainer>#hoverNav{ left: 0;}
+#hoverNav a{ outline: none;}
+
+#prevLink, #nextLink{
+	width: 49%;
+	height: 100%;
+	background: transparent url(/static/blank.gif) no-repeat; /* Trick IE into showing hover */
+	display: block;
+	}
+#prevLink { left: 0; float: left;}
+#nextLink { right: 0; float: right;}
+#prevLink:hover, #prevLink:visited:hover { background: url(static/prev.gif) left 50% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(static/next.gif) right 50% no-repeat; }
+
+/*** START : next / previous text links ***/
+#nextLinkText, #prevLinkText{
+color: #FF9834;
+font-weight:bold;
+text-decoration: none;
+}
+#nextLinkText{
+padding-left: 20px;
+}
+#prevLinkText{
+padding-right: 20px;
+}
+/*** END : next / previous text links ***/
+/*** START : added padding when navbar is on top ***/
+
+.ontop #imageData {
+    padding-top: 5px;
+}
+
+/*** END : added padding when navbar is on top ***/
+
+#imageDataContainer{
+	font: 10px Verdana, Helvetica, sans-serif;
+	background-color: #fff;
+	margin: 0 auto;
+	line-height: 1.4em;
+	}
+
+#imageData{
+	padding:0 10px;
+	}
+#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
+#imageData #caption{ font-weight: bold;	}
+#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}
+#imageData #bottomNavClose{ width: 66px; float: right;  padding-bottom: 0.7em;	}
+#imageData #helpDisplay {clear: left; float: left; display: block; }
+
+#overlay{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 90;
+	width: 100%;
+	height: 500px;
+	background-color: #000;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	display: none;
+	}
+	
+
+.clearfix:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+
+* html>body .clearfix {
+	display: inline-block; 
+	width: 100%;
+	}
+
+* html .clearfix {
+	/* Hides from IE-mac \*/
+	height: 1%;
+	/* End hide from IE-mac */
+	}	
+
+#lightboxIframe {
+	display: none;
+}	
+
+.bya_menuitem {
+/*    float:left;*/
+    height:20px;
+/*    width:100px;*/
+    margin-right: 10px;
+    padding:2px;
+    text-decoration:none;
+    
+}
+.bya_menuitem:hover {
+    background-color:#eeeeee;
+}
+.bya_menuitem_link:hover {
+    text-decoration:underline;
+}
+.bya_item_selected {
+   background-color:#dddddd;
+}
+.bya_item_selected:hover {
+   background-color:#dddddd;
+}
+
+a.bya_menuitem_link:visited {color:#0000ff}
+
+#selectattribview {margin-bottom:30px;}
+
+/*****************************************
+
+EVERYTHING ABOVE THIS LINE TO THE CORRESPONDING HEADER ABOVE IS FROM
+lightbox.css SEE THE LIGHTBOX LICENSE
+
+********************************************/
+
+
+.postthumbdiv {
+    float:left; 
+    background-color:#ccccff; 
+    margin:5px;
+    padding:5px;
+    border: 0px;
+}
+
+
+.postthumblink {
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+.u {text-decoration:underline;color:#0000ff;}
+
+.autofind_unavailable {display:none;}
+
+
+#matches {
+  margin-top: 10px;
+  padding:5px;
+  width: 320px;
+  height: 300px;
+/*  float: left;*/
+  border: 1px solid #333;
+  display: none;
+  overflow: auto;
+}
+
+
+#mobile-matches {
+  margin-top: 10px;
+  padding:5px;
+  width:100%;
+/*  float: left;*/
+  border: 1px solid #333;
+  display: none;
+  overflow: auto;
+}
+
+
+
+
+.b {font-weight:bold;}
+
+
+#mobile-footer {
+    text-align:center; 
+    margin: 0 auto;
+    width: 90%;
+    margin-top:4em;
+    font-size:0.8em;
+    color: #777;
+    background-color: #eee;
+
+}
+
+
+#footer {
+    text-align:center; 
+    margin: 0 auto;
+    width: 600px;
+    margin-top:40px;
+    font-size:0.8em;
+    color: #777;
+    background-color: #eee;
+}
+
+#copyrightdetails, #privacypolicy, #forandroiddiv, #termsofservice, #faq {
+    padding:50px;
+    margin: 0 auto;
+    width:800px;
+    font-size:0.8em;
+}
+
+.postfooter {
+    clear:both;
+    margin-top: 5px;
+    border-top: 1px dotted #777;
+    background-color:#d9d9e0;
+     
+}
+
+.postreplybox {
+    display:none;
+}
+.replybox {
+    background-color:#d9d9e0;
+}
+.cancelbutton {
+    text-align:right;
+    
+}
+
+.worksafenote {
+    font-size:9pt;
+    font-style:italic;
+    text-align:right;
+}
+
+.postchildrenbox {
+    clear:both;
+    margin-left: 50px;
+}
+
+.postchildbox {
+    background-color:#aaaaff;
+    margin-bottom:10px;
+}
+
+.hiddenreplies {
+    font-style: italic;
+}
+
+.returntomain {
+    text-align:center; 
+    margin: 0 auto;
+    width: 400px;
+    margin-top:10px;
+    margin-bottom:10px;
+     background-color: #eee;
+   
+}
+
+#no_more_posts {
+    text-align:center; 
+    margin: 0 auto;
+    width: 400px;
+    display:none;
+    margin-top:10px;
+    margin-bottom:10px;
+    font-weight:bold;
+    background-color:#feff9f;
+}
+
+
+#loadmorespinner {
+    margin:20px;
+    text-align:center; 
+    margin: 0 auto;
+    width: 400px;
+    display:none;
+}
+
+.fineprint {
+    font-size:0.8em;
+}
+
+.mobilebuttondiv {
+/*    height:3em;    vertical-align:middle;    width:100%;    max-width:100%;*/
+margin-right:1em;
+
+}
+.mobilebuttonlink {
+    font-size:1.2em;
+    display:block;
+    font-weight:bold;
+    background-color:#bcbcd1;
+    width:100%;
+    max-width:100%;
+    vertical-align:middle;
+
+    border:2px solid #ccc;
+    text-align:center;
+    padding:5px;
+    margin: 2px;
+}
+
+#lookinguplocation {
+    width:100%;
+    background-color:#feff9f;
+    display:none;
+}
+
+#lookinguplocation-success {
+    width:100%;
+    background-color:#41be41;
+    display:none;
+
+}
+
+.failmessage {
+    background-color:#ff6f6f;
+}
+
+#nojs {
+font-size:2em;
+font-weight:bold;
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+background-color:#eee;
+z-index:1000;
+}
+
+
+#lookupfailed {
+    width:100%;
+
+    display:none;
+}
+
+a.mobile-match {
+    display:block;
+}
+
+a.mobile-match:hover {
+    background-color:#fff;
+}
+
+
+div.mobile-match {
+    border-bottom: 2px solid #ccc;
+    width:100%;
+}
+
+.map-canvas-mobile {
+    width:100%;
+    background-color:#ccc;
+    height:200px;
+}
+
+.mobile_content_textarea {
+    width:100%;
+    max-width:100%;
+}
+
+.i {font-style:italic;}
+
+
+#imagerequired {
+font-weight:bold;
+}
+
+.postthumb {
+    border:0px;
+}
+
+#geo_instruction_bar {
+    width:650px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    z-index: 9999;
+    background-color: #0000a0;
+    color: #fff;
+}
+
+#wuparrow {
+    margin-right:50px;
+}
+
+
+#commentthanks {
+    text-align:center; 
+    margin: 0 auto;
+    width: 200px;
+    display:none;
+    margin-top:10px;
+    margin-bottom:10px;
+    font-weight:bold;
+    background-color:#feff9f;
+
+}
+
+#commentformdivinner {
+    margin-top:1em;
+    display:none;
+}
+
+#commentformdiv {
+    margin: 0 auto;
+    margin-top:0.5em;
+    display:none;
+}
+
+#android-blurb-header {
+    text-align:center;
+   margin-top:0.5em;
+   font-size: 1.2em;
+}
+
+#android-shutter-inner {
+    margin:0 auto;
+}
+#android-shutter {
+    display:none;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    opacity:1.0;
+    background-color:#e5e5ff;   
+
+}
+#android-shutter-ul-div {
+    width:100%;
+    text-align:center;
+}
+
+#tryandroid {
+    display:none;
+}
+
+#center-ul-box {
+    margin:0 auto;
+    width:380px;
+}
+
+.backlink {
+    text-align:center; 
+    width:100%;
+    margin-top:50px;
+}
+
+.deletespan {
+    text-align:center; 
+    width:100%; 
+    font-size: 0.8em;    
+    cursor:pointer;
+
+}
+
+.deletemsg {
+    font-style:italic;
+    color:#630000;
+}
+
+#optionswrapper {
+    margin-top:5px;
+    border: 1px dotted #333;
+}
+
+#optionsbox {
+    display:none;
+    padding-left:10px;
+    padding-right:10px;
+    padding-bottom:10px;
+}
+
+.mobileprefsexplanation {
+    font-size:0.9em;
+    font-style:italic;
+    max-width:600px;
+    margin: 0 auto;
+}
+
+.mobileprefcontrol {
+    font-size:1.2em;
+}
+
+.mobileprefsblock {
+    margin-bottom:1em;
+}
+.mobileprefshdr {
+    font-size:1.2em;
+    font-weight:bold;
+}

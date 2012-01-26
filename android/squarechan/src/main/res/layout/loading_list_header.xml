@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--see
+   http://www.droidnova.com/layout-technique-center-a-textview-with-a-button-left-and-right,626.html -->
+<RelativeLayout 
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent" 
+   android:layout_height="wrap_content" >
+  
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		  android:layout_centerInParent="true"
+		  android:layout_width="wrap_content"
+		  android:layout_height="50dip"
+		  android:padding="3dip">
+    
+    <ProgressBar style="?android:attr/progressBarStyleSmall"
+		 android:id="@+id/loadProgressSpinner" 
+		 android:paddingRight="20dip"
+		 android:layout_centerVertical="true"
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content" />
+    
+    <TextView 
+       style="@style/SQLoadingHeaderTextStyle"
+       android:layout_toRightOf="@+id/loadProgressSpinner"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="20dip"
+       android:layout_centerVertical="true"
+       android:text="@string/loading_posts"
+       />
+  </RelativeLayout>
+</RelativeLayout>

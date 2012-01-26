@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>{{sitename}} [beta]: {{tagline}}</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+    {% include 'loadscripts.html' %}
+  </head>
+  <body>
+    <div id="maindiv">
+      {% block maindiv %}{% endblock %}
+    </div>
+    <div id="footer">
+      &copy; 2010. <a href="/static/copyright-details.html">details</a>
+      | <a href="/static/terms.html">terms</a>/<a href="/static/privacy.html">privacy</a>
+      | <a href="/goto-mobile?path={{requestpath}}">switch to mobile site</a>
+      | <a href="/static/android.html">try our Android app</a>
+      {% include 'comment.html' %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+NameVirtualHost *:80
+
+# <VirtualHost *:443>
+<VirtualHost *:80>
+DocumentRoot /var/www
+Alias /static /home/jdb/squarechan/thesite/theapp/static       
+
+#<Location "/">
+#AuthType Basic
+#AuthName "alpha"
+#AuthUserFile /etc/apache2/htpasswd
+#Require user o
+#Order allow,deny
+#Allow from w3.org .w3.org validator.w3.org *.w3.org 127.0.0.1 virebo.com dev.virebo.com ec2-75-101-169-211.compute-1.amazonaws.com 75.101.169.211 10.254.215.224 ec2-184-73-68-147.compute-1.amazonaws.com 10.209.138.81 domU-12-31-39-07-89-A3.compute-1.internal 184.73.68.147 
+#Satisfy Any
+# </Location>
+# 
+#
+#<Location "/latest-ajax">
+#	Satisfy Any
+#	Allow from All
+# </Location>
+#
+#<Location "/post-android">
+#	Satisfy Any
+#	Allow from All
+# </Location>
+
+<Location "/mod">
+AuthType Basic
+AuthName "31337"
+AuthUserFile /etc/apache2/htpasswd
+Require user admin
+ </Location>
+  
+
+
+Alias /favicon.ico /home/jdb/squarechan/thesite/theapp/static/favicon.ico
+Alias /robots.txt /home/jdb/squarechan/thesite/theapp/static/robots.txt
+WSGIScriptAlias / /home/jdb/squarechan/django.wsgi
+ServerName put.server.name.here:80
+</VirtualHost>
+

@@ -1,0 +1,67 @@
+{% comment %}
+<!--
+
+ *  squarechan, a toy mobile photo-sharing app
+ *     Copyright (C) 2012  Joseph Barillari
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License version 3
+ *     as published by the Free Software Foundation.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+{% endcomment %}
+
+{% extends 'mobile/base.html' %}
+{% block maindiv %}
+
+{% include 'mobile/nojs.html' %}
+
+
+<div id="mobilemapbox">
+<div class="mobilebuttondiv">
+<span id="mobile-acceptandcontinue" class="u mobilebuttonlink">Accept location and continue &gt;&gt;&gt;</span>
+</div>
+
+<div id="mobile-mapinstructions">Tap to set location. Drag to scroll.</div>
+<div id="map_canvas" class="map-canvas-mobile"></div>
+
+{%comment%}
+<!--
+
+FIXED-SIZE PAGE--FILL VIEWPORT. catch .resize() to redraw on resize.
+
+Click the map to change your location.
+[ accept location and continue >> ] -> go to mainpage
+
+[MAP]
+
+
+[ search again ] <- back to search results, #hashtag to new search
+-->
+{%endcomment%}
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+   LOC = get_qs_hash_value('loc');
+   if(!LOC) {
+       alert("Query string must include a location.");
+       return;
+   }
+   show_map_lat_lng(parseFloat(LOC.split(",")[0]), parseFloat(LOC.split(",")[1]));
+   $("#mobile-acceptandcontinue").click(mobile_acceptandcontinue);
+});
+</script>
+
+
+
+{% endblock %}

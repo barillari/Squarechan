@@ -1,0 +1,10 @@
+What do you get when you combine 4chan and Foursquare?
+
+Squarechan! Squarechan is an anonymous location-based chat service: like 4chan, you can post text and pictures anonymously. Like Foursquare, it's location-based: you see the posts within the nearest 10 kilometers. We're launching the public beta today and would love your feedback.
+
+Squarechan is a stocking stuffer. Like windup teeth or whoopee cushions, it has no serious purpose, but we hope you'll have fun with it. Both Web and Android versions are available. Comments welcome below or at comments@squarechan.com.
+
+
+P.S. Since this is HN: the Android app is implemented in Scala, a wonderful way to ue Android without writing Java. We plan to follow-up with a post of tips to try and pitfalls to avoid when hacking in Scala for Android.
+
+
